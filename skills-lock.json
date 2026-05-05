@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "nextjs-architecture": {
+      "source": "89jobrien/steve",
+      "sourceType": "github",
+      "skillPath": "steve/skills/nextjs-architecture/SKILL.md",
+      "computedHash": "9ba578f238d6b76a7554bf7d4257e17c31e228847c293077e59025fd34ffb084"
+    }
+  }
+}
