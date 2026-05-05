@@ -2,7 +2,7 @@ import CaseStudy from "../components/CaseStudy";
 
 export default function Projects() {
   return (
-    <section className="mx-auto max-w-3xl px-6 py-20">
+    <section className="mx-auto max-w-3xl px-6 py-6">
       <div className="rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-10">
         <h2 className="mb-12 text-3xl font-bold tracking-tight text-[var(--foreground)]">
           Case Studies
