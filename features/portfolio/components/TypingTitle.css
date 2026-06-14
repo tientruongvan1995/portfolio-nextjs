@@ -1,16 +1,23 @@
 /* Typewriter effect styles */
 .Typewriter {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  margin-top: 24px;
+  font-family: var(--font-sans);
+  margin-top: 16px;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--muted-strong);
 }
 
 .Typewriter__cursor {
-  font-size: 24px;
-  margin-left: 1px;
+  font-size: 1.2rem;
+  margin-left: 0.25rem;
   animation: Typewriter-cursor 1s ease infinite;
 }
 
 @keyframes Typewriter-cursor {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }

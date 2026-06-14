@@ -2,11 +2,19 @@ import CaseStudy from "../components/CaseStudy";
 
 export default function Projects() {
   return (
-    <section className="mx-auto max-w-3xl px-6 py-6">
-      <div className="rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-10">
-        <h2 className="mb-12 text-3xl font-bold tracking-tight text-[var(--foreground)]">
-          Case Studies
-        </h2>
+    <section className="px-6 py-16 sm:py-20">
+      <div className="mx-auto max-w-6xl rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] p-10 shadow-[var(--shadow)] backdrop-blur-xl">
+        <div className="mb-12 flex flex-col gap-4">
+          <span className="inline-flex rounded-full bg-[rgba(212,165,116,0.09)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.32em] text-[var(--accent-warm)]">
+            Featured Work
+          </span>
+          <h2 className="text-4xl font-semibold tracking-[-0.03em] text-[var(--foreground)]">
+            Selected Case Studies
+          </h2>
+          <p className="max-w-3xl text-base leading-8 text-[var(--muted)]">
+            A collection of high-value mobile and IoT solutions designed for reliability, performance, and cross-platform scale.
+          </p>
+        </div>
 
         <div className="space-y-8">
           <CaseStudy
