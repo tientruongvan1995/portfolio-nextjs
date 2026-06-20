@@ -11,6 +11,13 @@ app/
   page.tsx
   globals.css
 
+components/
+  Button.tsx
+  Card.tsx
+  Typography/
+    Heading.tsx
+    Text.tsx
+
 features/
   theme/
     ThemeProvider.tsx
@@ -19,6 +26,7 @@ features/
     PortfolioPage.tsx
     components/
       CaseStudy.tsx
+      TypingTitle.tsx
     sections/
       Hero.tsx
       Skills.tsx
@@ -36,6 +44,21 @@ features/
   building blocks.
 - Shared UI that only belongs to the portfolio stays inside the portfolio
   feature instead of becoming a generic global component.
+
+## Shared UI / Reusable Components
+
+- **Placement:** Put truly shared, generic UI in the top-level `components/` folder. Keep feature-specific building blocks inside `features/<feature>/components` so the feature remains self-contained.
+- **API conventions:** Components should be composition-friendly: accept `className`, `children`, and small, well-documented props (e.g., `text`, `speed`, `badgeText`, `actions`). Prefer slots (`children` / `actions`) over many ad-hoc props.
+- **Styling:** Use tokens from `app/globals.css` for colors/spacing. Prefer utility-first classes (Tailwind) plus a `className` prop for overrides.
+- **Behavior:** Keep components uncontrolled by default (let callers manage state) and expose callbacks for interactions.
+- **Examples:** `features/portfolio/components/TypingTitle.tsx` and `features/portfolio/components/CaseStudy.tsx` have been generalized to accept `className` and configurable props (e.g., `text`, `speed`, `badgeText`, `actions`) so they can be reused across multiple sections.
+
+## Component Guidelines
+
+- **Minimal surface area:** Export small, focused components (Cards, Buttons, FormFields, Typography primitives).
+- **Accessibility:** Ensure semantic markup and keyboard focus states for interactive components.
+- **Docs and stories:** Add a short README or Storybook story for non-trivial components so consumers know intended usage and props.
+
 
 ## Composition Flow
 

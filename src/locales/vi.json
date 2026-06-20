@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "title": "Nhà phát triển React Native | Hồ sơ",
+    "description": "Cross-platform, tối ưu hiệu năng và phát triển mobile chất lượng cao.",
+    "author": {
+      "name": "Trương Văn Tiến",
+      "email": "tientruongvan1995@gmail.com",
+      "phone": "+84936952906",
+      "location": "243 Bà Triệu, Huế, Việt Nam"
+    },
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/tientruongvan1995/"
+    }
+  },
+  "hero": {
+    "title": "Xây dựng sản phẩm đa nền tảng tinh tế cho đội mobile hiệu suất cao.",
+    "intro": "Tôi thiết kế và triển khai ứng dụng React Native, React và Flutter cấp sản xuất với tích hợp native, hệ thống thanh toán và kiến trúc mở rộng cho đội.",
+    "cta": "Liên hệ ngay",
+    "linkedin": "LinkedIn",
+    "role": "Nhà phát triển React Native",
+    "location": "Kiến trúc đa nền tảng, tích hợp native và hệ thống mobile có thể mở rộng.",
+    "stats": {
+      "1": "8+ năm xây dựng sản phẩm mobile thực tế",
+      "2": "Chuyên gia React Native, Flutter, Swift, Kotlin",
+      "3": "Đã triển khai hệ thống realtime, thanh toán và IoT quy mô lớn"
+    }
+  },
+  "skills": {
+    "title": "Kỹ năng & Chuyên môn",
+    "description": "Bộ công cụ kỹ thuật mobile hiện đại tập trung vào kiến trúc đa nền tảng, tích hợp native và giao hàng đáng tin cậy."
+  },
+  "projects": {
+    "title": "Các Case Study đã chọn",
+    "description": "Tập hợp các giải pháp mobile và IoT giá trị cao được thiết kế cho độ tin cậy, hiệu năng và khả năng mở rộng đa nền tảng."
+  },
+  "experience": {
+    "title": "Kinh nghiệm làm việc",
+    "description": "Được tin tưởng dẫn dắt kiến trúc mobile, tích hợp native và giao hàng hiệu suất cao qua các sáng kiến sản phẩm đa đội."
+  },
+  "footer": {
+    "getInTouch": "Liên hệ ngay",
+    "builtWith": "Xây dựng bằng Next.js, triển khai trên Vercel.",
+    "copy": "© 2026. React Native Developer • Luôn học hỏi, xây dựng quy mô.",
+    "email": "tientruongvan1995@gmail.com",
+    "phone": "+84 936 952 906"
+  }
+}

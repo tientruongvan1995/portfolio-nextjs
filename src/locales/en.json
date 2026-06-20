@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "title": "React Native Developer | Portfolio",
+    "description": "Cross-platform architecture, performance optimization, and high-impact mobile development.",
+    "author": {
+      "name": "Truong Van Tien",
+      "email": "tientruongvan1995@gmail.com",
+      "phone": "+84936952906",
+      "location": "243 Ba Trieu, Hue, Vietnam"
+    },
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/tientruongvan1995/"
+    }
+  },
+  "hero": {
+    "title": "Building elegant cross-platform products for high-impact mobile teams.",
+    "intro": "I architect and deliver production-grade React Native, React, and Flutter applications with native integrations, payment systems, and team-scalable architecture.",
+    "cta": "Get in Touch",
+    "linkedin": "LinkedIn",
+    "role": "React Native Developer",
+    "location": "Cross-platform architecture, native integration, and scalable mobile systems.",
+    "stats": {
+      "1": "8+ years building production mobile experiences",
+      "2": "Expert in React Native, Flutter, Swift, Kotlin",
+      "3": "Delivered real-time, payment, and IoT systems at scale"
+    }
+  },
+  "skills": {
+    "title": "Skills & Expertise",
+    "description": "A modern mobile engineering toolkit focused on cross-platform architecture, native integration, and reliable production delivery."
+  },
+  "projects": {
+    "title": "Selected Case Studies",
+    "description": "A collection of high-value mobile and IoT solutions designed for reliability, performance, and cross-platform scale."
+  },
+  "experience": {
+    "title": "Work Experience",
+    "description": "Trusted to lead mobile architecture, native integrations, and high-performance delivery across multi-team product initiatives."
+  },
+  "footer": {
+    "getInTouch": "Get in Touch",
+    "builtWith": "Built with Next.js, deployed on Vercel.",
+    "copy": "© 2026. React Native Developer • Always learning, building at scale.",
+    "email": "tientruongvan1995@gmail.com",
+    "phone": "+84 936 952 906"
+  }
+}

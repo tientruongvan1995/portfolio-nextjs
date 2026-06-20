@@ -54,10 +54,11 @@ function setStoredTheme(theme: Theme) {
     listener();
   }
 }
+
+const getServerSnapshot = (): Theme => 'light';
 // ================================================================
 
-export function ThemeProvider({children}: {children: ReactNode}) {
-  const getServerSnapshot = (): Theme => 'light';
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const theme = useSyncExternalStore(subscribe, readTheme, getServerSnapshot);
 
   useEffect(() => {
@@ -72,7 +73,7 @@ export function ThemeProvider({children}: {children: ReactNode}) {
   };
 
   return (
-    <ThemeContext.Provider value={{theme, toggleTheme}}>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
