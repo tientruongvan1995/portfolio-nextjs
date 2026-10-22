@@ -3,8 +3,7 @@ Senior React Native portfolio built with Next.js App Router.
 ## Architecture
 
 - `app/` owns routing, metadata, and global providers.
-- `features/theme/` owns theme state and the toggle.
-- `features/portfolio/` owns the homepage composition and its section modules.
+- `features` owns features.
 - `app/globals.css` provides theme tokens and class-based dark mode.
 
 ## Getting Started
