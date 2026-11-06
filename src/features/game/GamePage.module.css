@@ -1,0 +1,71 @@
+.background {
+  height: inherit;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-image: url("/pokemon/homepage/background.svg");
+}
+
+.container {
+  position: relative;
+  max-width: 1440px;
+  height: inherit;
+  margin: 0 auto;
+  padding: 25px 20px;
+}
+
+.main {
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  transition: transform 250ms ease;
+}
+
+.logo:hover {
+  transform: scale(1.2);
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  margin-bottom: 80px;
+  gap: 150px;
+}
+
+.pokeballIcon {
+  transition: transform 500ms ease;
+}
+
+.pokeballIcon:hover {
+  transform: rotate(720deg) scale(1.2);
+}
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column-reverse;
+  gap: 5px;
+}
+
+.buttonWrapper > div,
+.buttonWrapper > img {
+  transition: opacity 250ms ease, transform 250ms ease;
+  transform: translateY(-10px);
+  opacity: 0;
+}
+
+.buttonWrapper a:hover ~ div,
+.buttonWrapper a:hover ~ img {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.buttonWrapper h2 {
+  text-align: center;
+}

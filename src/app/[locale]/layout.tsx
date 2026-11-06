@@ -1,5 +1,5 @@
 import { routing } from '@/i18n/routing';
-import { hasLocale, Locale, NextIntlClientProvider } from 'next-intl';
+import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
