@@ -1,11 +1,5 @@
-/* The theme and language controls that sit in the nav's actions: two quiet, 32px
-   controls on the desktop bar, and a row at the foot of the phone sheet. */
-
-.prefs {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
+/* The shared look of the global controls (theme, language): quiet 32px pills that sit
+   beside a nav's primary action, on the desktop bar and in the phone sheet alike. */
 
 .group {
   display: inline-flex;
@@ -65,11 +59,4 @@
 .isOn:hover {
   background: color-mix(in oklab, var(--ink) 88%, var(--bg));
   border-color: var(--ink);
-}
-
-@media (max-width: 1023px) {
-  .prefs {
-    justify-content: center;
-    padding-bottom: var(--s-2);
-  }
 }

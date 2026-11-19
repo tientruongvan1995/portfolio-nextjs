@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { Link, usePathname } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 
-import s from './Prefs.module.css';
+import s from '@/components/Control.module.css';
 
 /** EN / VI, on the page the visitor is already reading. */
 export function LocaleSwitch({ label }: { label: string }) {

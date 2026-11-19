@@ -1,5 +1,5 @@
 import { routing } from '@/i18n/routing';
-import { LocaleLang } from '@/components/LocaleLang';
+import { LocaleLang } from '@/features/language';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';

@@ -1,15 +1,15 @@
 import { getTranslations } from 'next-intl/server';
 
+import { LocaleSwitch } from '@/features/language';
+import { ThemeSwitch } from '@/features/theme';
 import { Link } from '@/i18n/navigation';
 
 import { email } from '../landingData';
 
-import s from './Prefs.module.css';
+import s from './Nav.module.css';
 
-import { LocaleSwitch } from './LocaleSwitch';
 import { NavCurrent } from './NavCurrent';
 import { NavToggle } from './NavToggle';
-import { ThemeSwitch } from './ThemeSwitch';
 
 export async function Nav() {
   const t = await getTranslations('landing.nav');

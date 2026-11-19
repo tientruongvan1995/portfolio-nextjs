@@ -1,0 +1,14 @@
+/* The nav's action cluster: the two global controls, then the primary link. */
+
+.prefs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 1023px) {
+  .prefs {
+    justify-content: center;
+    padding-bottom: var(--s-2);
+  }
+}

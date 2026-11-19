@@ -122,8 +122,8 @@ Layout law:
 | `Nav` | `components/Nav.tsx` | Centre nav, fixed 72 px, equal edges with the container |
 | `NavCurrent` | `components/NavCurrent.tsx` | Current-section marker (an `::after` underline) |
 | `NavToggle` | `components/NavToggle.tsx` | Phone menu |
-| `ThemeSwitch` | `components/ThemeSwitch.tsx` | Writes through `ThemeProvider` |
-| `LocaleSwitch` | `components/LocaleSwitch.tsx` | Keeps the current path, swaps the locale |
+| `ThemeSwitch` | `src/features/theme/ThemeSwitch.tsx` | Owned by the theme feature; writes through `ThemeProvider` |
+| `LocaleSwitch` | `src/features/language/LocaleSwitch.tsx` | Owned by the language feature; keeps the current path, swaps the locale |
 | `Arrow` / `CodeLine` | `components/` | Monochrome, inline SVG, `currentColor` |
 | Sections | `sections/LandingHero, Services, Approach, Work, Closing` | Composition only, no ad-hoc styling |
 
@@ -295,7 +295,10 @@ src/app/[locale]/pokemon/layout.tsx    .game shell + next/font + PlayerProvider
 src/features/portfolio/kit/tokens.css  blush-aubergine palette, light + dark
 src/features/portfolio/kit/system.css  spacing/type/radius/control scale
 src/features/portfolio/kit/layout.css  one-section-per-screen arithmetic
-src/features/portfolio/components/     Nav, switches, Arrow, CodeLine
+src/features/portfolio/components/     Nav, NavCurrent, NavToggle, Arrow, CodeLine
+src/components/                        Control.module.css (shared pill styles)
+src/features/theme/                    ThemeProvider, useTheme, ThemeSwitch
+src/features/language/                 LocaleSwitch, LocaleLang
 src/features/portfolio/sections/       LandingHero, Services, Approach, Work, Closing
 src/features/game/styles/game.css      --g-* tokens + g- primitives
 src/features/game/GamePage.*           home

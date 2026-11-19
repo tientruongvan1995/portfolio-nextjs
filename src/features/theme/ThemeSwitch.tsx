@@ -1,8 +1,8 @@
 'use client';
 
-import { useTheme } from '@/features/theme';
+import { useTheme } from './ThemeProvider';
 
-import s from './Prefs.module.css';
+import s from '@/components/Control.module.css';
 
 /**
  * Light and dark. Which mark shows is decided by the class the boot script puts on <html>
