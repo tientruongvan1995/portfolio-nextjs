@@ -1,6 +1,6 @@
-# Portfolio Architecture
+# Project Architecture
 
-This portfolio uses a feature-based structure so the app shell stays thin and
+This project uses a feature-based structure so the app shell stays thin and
 the UI is organized by product area instead of by file type.
 
 ## Structure

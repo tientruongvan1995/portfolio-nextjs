@@ -2,8 +2,9 @@ import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const nextConfig: NextConfig = {
+  devIndicators: false,
   images: {
-    domains: ['raw.githubusercontent.com'],
+    remotePatterns: [new URL('https://raw.githubusercontent.com/**')],
   },
 };
 

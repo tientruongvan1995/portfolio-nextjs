@@ -1,341 +1,325 @@
-# Design System Inspired by AI-Driven Travel Experiences
+# Design System
 
-## 1. Visual Theme & Atmosphere
+Last updated: 2026-11-16 · Scope: the portfolio landing page (`/[locale]`) and the Pokémon TeamFight game (`/[locale]/pokemon`).
 
-This design system embodies sophisticated elegance with an exploration-forward narrative. The aesthetic marries premium travel imagery with minimalist dark interfaces, creating an immersive storytelling environment where nature photography dominates the visual hierarchy. The system leverages deep forest greens, warm golden hues, and near-black backgrounds to evoke a sense of wanderlust, serenity, and technological precision. Typography is refined with serif accents for editorial moments, paired with modern sans-serif for functionality. The overall mood is aspirational yet grounded—inviting users to discover extraordinary destinations through AI-enhanced personalization, while maintaining sophisticated restraint through high contrast and strategic whitespace.
+This replaces the earlier travel-themed spec. Everything below is read from the code, not aspirational: if a value changes in CSS, change it here in the same commit.
 
-**Key Characteristics**
-- Deep, near-black dark mode as primary interface canvas
-- Warm earth tones and emerald accents for accent content
-- Photography-first hero layouts with overlay text hierarchy
-- Minimal chrome; full-bleed imagery behind transparent components
-- Serif typography for emotional/editorial voice; sans-serif for UI
-- High contrast accessibility with subtle gradient overlays
-- Soft rounded corners on interactive cards; sharp geometry on navigation
-- Generous padding within containers; tight spacing in typography
+Two surfaces share one foundation:
 
-## 2. Color Palette & Roles
+| Surface | Route | Foundation | Character |
+| --- | --- | --- | --- |
+| Portfolio | `/[locale]` | `src/features/portfolio/kit/*` + `tokens.css` | Editorial, one section per screen, monochrome ink accent |
+| Pokémon TeamFight | `/[locale]/pokemon` | `src/features/game/styles/game.css` | Compact console, same warmth, one Poké-red accent |
 
-### Primary
-- **Dark Background** (`#000000`): Primary surface for all dark mode interfaces, used for main container backgrounds, creating maximum contrast for content layering
-- **Near Black** (`#0E0E0E`): Subtle variation for section dividers and nested containers; provides depth without harsh transitions
+Both read the site theme from `<html class="dark">`, both are bilingual (`en`, `vi`), and neither hard-codes a colour outside its token block.
 
-### Accent Colors
-- **Forest Green** (`#1A4D3E`): Secondary accent used in tag components, filter buttons, and interactive states; represents nature and sustainability themes
-- **Golden Warm** (`#D4A574`): Tertiary accent for highlights, price tags, and premium CTA elements; evokes luxury travel experiences
-- **Cream/Off-White** (`#E8E4DC`): Soft highlight color used in card surfaces and overlay panels over darker backgrounds
+---
 
-### Interactive
-- **Emerald Active** (`#2D7A6E`): Button hover and focus states, active tab indicators
-- **Gold Highlight** (`#E6D5B8`): Interactive element backgrounds, secondary buttons, and call-to-action accents
+## 1. Shared foundation
 
-### Neutral Scale
-- **Light Gray** (`#E6E6E6`): Divider lines, subtle borders, low-contrast text on light backgrounds
-- **Medium Gray** (`#8B8B8B`): Secondary text, disabled states, icon fills
-- **White** (`#FFFFFF`): Primary text on dark backgrounds, primary CTA text, high-contrast overlays
+### 1.1 Theme
 
-### Surface & Borders
-- **Card Surface Dark** (`#1C1C1C`): Elevated card and container backgrounds with subtle lift from base
-- **Border Subtle** (`#333333`): Low-contrast borders for component separation, icon outlines
-- **Overlay Scrim** (`#00000066`): Semi-transparent dark overlay (40% opacity) for image text protection and depth layering
+- The boot script in `src/app/layout.tsx` sets `html.dark` and `html.style.colorScheme` before paint from `localStorage.theme`, falling back to `prefers-color-scheme`.
+- The user's choice is owned by `ThemeProvider`; components never read `matchMedia` directly.
+- The locale boot sets `<html lang>` from the first path segment (`/en`, `/vi`).
+- `html` carries the design settings: `data-type="service"`, `data-radius="soft"`, `data-buttons="solid"`.
 
-## 3. Typography Rules
+### 1.2 Typeface
 
-### Font Family
-**Primary:** `'Segoe UI', Tahoma, Geneva, Verdana, sans-serif` — modern, clean UI font for all functional elements
+Rethink Sans everywhere, weights 400–700.
 
-**Secondary:** `'Georgia', 'Times New Roman', serif` — elegant serif for editorial headlines, destination names, and premium section headers
+- Portfolio: loaded with a Google Fonts `<link>` in `PortfolioPage.tsx`.
+- Game: loaded with `next/font/google` in `src/app/[locale]/pokemon/layout.tsx` as `--font-rethink`, with a `system-ui` fallback.
+- Display weight is **400** on the landing; the game's page titles step up to 500. Headings earn hierarchy from size and tight tracking, not from weight 700.
+- Display tracking: `-0.025em`, extra-large headlines `-0.035em`.
+- Numerals in tables, scores and counters use `font-variant-numeric: tabular-nums`.
 
-**Fallback:** `system-ui, -apple-system, sans-serif`
+### 1.3 Motion
 
-### Hierarchy
+- One UI ease-out: `cubic-bezier(.2, .8, .2, 1)`.
+- Hover transitions: `180ms` on the landing (`--dur`), 160–200 ms on the game; nothing loops except the loading spinner and the live dot.
+- The landing gets one hero entrance and one dealt moment (`word-highlight`); everything else is hover-only.
+- `prefers-reduced-motion: reduce` stops the spinner and non-essential transitions.
 
-| Role | Font | Size | Weight | Line Height | Letter Spacing | Notes |
-|------|------|------|--------|-------------|-----------------|-------|
-| Display Hero | Georgia, serif | 56px | 400 | 1.2 | -0.5px | Large destination titles over imagery |
-| Heading 1 | Segoe UI, sans-serif | 32px | 600 | 1.3 | -0.25px | Main section titles, primary page headers |
-| Heading 2 | Segoe UI, sans-serif | 24px | 600 | 1.35 | 0px | Subsection headers, card titles |
-| Heading 3 | Segoe UI, sans-serif | 18px | 600 | 1.4 | 0px | Component section labels, secondary titles |
-| Body Large | Segoe UI, sans-serif | 16px | 400 | 1.6 | 0px | Primary body text, description paragraphs |
-| Body Regular | Segoe UI, sans-serif | 14px | 400 | 1.5 | 0px | Standard UI text, labels, secondary content |
-| Body Small | Segoe UI, sans-serif | 12px | 400 | 1.4 | 0px | Captions, helper text, metadata |
-| Button | Segoe UI, sans-serif | 16px | 500 | 1.2 | 0.5px | All button text, action labels |
-| Link | Segoe UI, sans-serif | 14px | 500 | 1.5 | 0px | Inline links, navigation items |
-| Code | `'Monaco', 'Courier New', monospace | 12px | 400 | 1.6 | 0px | Price values, dates, code snippets |
+### 1.4 Accessibility floor
 
-### Principles
-- **Contrast First:** All text maintains minimum 4.5:1 contrast ratio for WCAG AA compliance
-- **Hierarchy Through Weight:** Bold weights (600+) reserved for headings; body copy consistently 400 for legibility
-- **Serif for Emotion:** Georgia serif used sparingly on premium landing moments to elevate brand perception
-- **Generous Line Height:** Body text uses 1.5–1.6 for readability on mobile; compact headings use 1.2–1.35
-- **Negative Letter Spacing:** Display text tightened (-0.5px to -0.25px) for premium appearance and visual cohesion
+- Body text ≥ 4.5:1 on its own ground; large display text ≥ 3:1.
+- Every interactive element has a visible `:focus-visible` ring in the accent colour.
+- Numbers are tabular so columns do not jitter as they change.
+- Live feedback (added, saved, battle outcome) is announced with `role="status"` / `role="alert"`, never colour alone.
 
-## 4. Component Stylings
+---
 
-### Buttons
+## 2. Portfolio design system
 
-**Primary Button**
-- Background: `#D4A574` (Golden Warm)
-- Text Color: `#000000` (Dark Background)
-- Padding: `14px 32px`
-- Border Radius: `8px`
-- Font Size: `16px`
-- Font Weight: `500`
-- Border: none
-- Box Shadow: `0 4px 12px rgba(212, 165, 116, 0.25)`
-- Hover State: Background `#E6D5B8` (Gold Highlight), Box Shadow `0 6px 16px rgba(212, 165, 116, 0.35)`
-- Active State: Background `#C89860`, Box Shadow `0 2px 8px rgba(212, 165, 116, 0.2)`
-- Disabled State: Background `#8B8B8B`, Opacity `0.6`, Cursor `not-allowed`
+### 2.1 Palette — `blush-aubergine`
 
-**Secondary Button**
-- Background: transparent
-- Text Color: `#FFFFFF`
-- Padding: `12px 24px`
-- Border Radius: `8px`
-- Font Size: `14px`
-- Font Weight: `500`
-- Border: `1px solid #E6E6E6`
-- Box Shadow: none
-- Hover State: Background `rgba(230, 230, 230, 0.1)`, Border `#FFFFFF`
-- Active State: Background `rgba(230, 230, 230, 0.2)`
-- Focus State: Outline `2px solid #D4A574`, Outline Offset `2px`
+Defined in `src/features/portfolio/kit/tokens.css`. Light and dark are two complete sets, aliased to semantic names so sections never reference a palette key.
 
-**Ghost Button**
-- Background: transparent
-- Text Color: `#FFFFFF`
-- Padding: `10px 16px`
-- Border Radius: `24px`
-- Font Size: `14px`
-- Font Weight: `500`
-- Border: `1px solid rgba(255, 255, 255, 0.5)`
-- Box Shadow: none
-- Hover State: Background `rgba(255, 255, 255, 0.1)`, Border `#FFFFFF`
-- Active State: Background `rgba(255, 255, 255, 0.15)`, Text Color `#E6D5B8`
+| Token | Light | Dark | Role |
+| --- | --- | --- | --- |
+| `--p-bg` / `--bg` | `#edccbe` | `#1c0e17` | Page ground (dark = the game's canvas) |
+| `--p-surface` / `--surface` / `--card` | `#e8c2b2` | `#2a1521` | Cards, panels, media ground (dark = the game's panel) |
+| `--p-ink` / `--ink` | `#351a2b` | `#edccbe` | Primary text, monochrome accent |
+| `--p-muted` / `--muted` | `#523340` | `#b2938f` | Secondary text (7.3:1 on blush) |
+| `--p-accent` / `--accent` | `#351a2b` | `#edccbe` | Accent = ink; no second hue on the landing |
+| `--p-accent-ink` | `#edccbe` | `#351a2b` | Text on accent |
+| `--p-action` / `--action` | `#351a2b` | `#edccbe` | Buttons and links |
+| `--p-action-ink` | `#edccbe` | `#351a2b` | Text on actions |
+| `--line` | `ink 11%` | `ink 16%` | Hairlines |
+| `--line-strong` | `ink 20%` | `ink 28%` | Emphasis rules |
 
-### Cards & Containers
+Rules:
 
-**Destination Card (Featured)**
-- Background: `#1C1C1C` with `background-image` layered
-- Border Radius: `16px`
-- Padding: `16px`
-- Border: `1px solid #333333`
-- Box Shadow: `0 8px 32px rgba(0, 0, 0, 0.4)`
-- Overlay: `linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%)`
-- Min Height: `240px`
-- Hover State: Box Shadow `0 12px 48px rgba(0, 0, 0, 0.5)`, Transform `translateY(-4px)`, Transition `all 0.3s ease`
+- No violet, lavender or second decorative hue. The accent **is** the ink.
+- Dark mode shares the game's ground: `#1c0e17` canvas and `#2a1521` panels, so the two surfaces feel like one product at night.
+- Colour never carries meaning alone; labels and numbers do the work.
+- `--fx-*` mirrors the six core tokens for canvas/diagram code — never bypass it.
 
-**Information Card (Light)**
-- Background: `#E8E4DC`
-- Border Radius: `12px`
-- Padding: `20px`
-- Border: none
-- Box Shadow: `0 2px 8px rgba(0, 0, 0, 0.08)`
-- Text Color: `#000000`
-- Hover State: Box Shadow `0 4px 12px rgba(0, 0, 0, 0.12)`
+### 2.2 Spacing and grid
 
-**Tag/Chip Component**
-- Background: `#1A4D3E` (Forest Green)
-- Text Color: `#FFFFFF`
-- Padding: `6px 12px`
-- Border Radius: `20px`
-- Font Size: `12px`
-- Font Weight: `500`
-- Border: none
-- Box Shadow: none
-- Hover State: Background `#2D7A6E`, Cursor `pointer`
+The 4/8 scale from `system.css`, one container for header, sections and footer:
 
-### Inputs & Forms
+| Token | Value |
+| --- | --- |
+| `--container` | `1280px` |
+| `--gut` / `--pad` | `80px` (24 px ≤ 639 px) |
+| `--gutter` | `24px` (12 px ≤ 639 px) |
+| `--s-1 … --s-10` | 4, 8, 12, 16, 24, 32, 48, 64, 96, 128 |
+| `--nav` | `72px` fixed (`56px` ≤ 639 px) |
+| `--padt` / `--padb` | `120px` / `72px` (`96px` / `48px` ≤ 639 px) |
+| `--hgap` / `--hpadb` | `48px` / `64px` (`40px` / `24px` ≤ 639 px) |
 
-**Text Input**
-- Background: `#1C1C1C`
-- Text Color: `#FFFFFF`
-- Border: `1px solid #333333`
-- Border Radius: `8px`
-- Padding: `12px 16px`
-- Font Size: `16px`
-- Line Height: `1.5`
-- Placeholder Color: `#8B8B8B`
-- Focus State: Border `#D4A574`, Box Shadow `0 0 0 3px rgba(212, 165, 116, 0.15)`
-- Disabled State: Background `#0E0E0E`, Opacity `0.5`, Cursor `not-allowed`
+Layout law:
 
-**Text Area**
-- Background: `#1C1C1C`
-- Text Color: `#FFFFFF`
-- Border: `1px solid #333333`
-- Border Radius: `8px`
-- Padding: `12px 16px`
-- Font Size: `14px`
-- Line Height: `1.5`
-- Resize: `vertical`
-- Min Height: `100px`
-- Focus State: Border `#D4A574`, Box Shadow `0 0 0 3px rgba(212, 165, 116, 0.15)`
+- **One section per screen** (two for Services and Work). `--ly-screen` and `--ly-fit` do the arithmetic; nothing is eyeballed.
+- Both edges of a section land on the same container lines as the header and footer (equal edges).
+- No captions under or over a visual. If it needs explaining, the copy is wrong.
+- Text groups stay ≤ 700 px at 390 px wide so a screen never becomes two.
 
-**Checkbox / Radio**
-- Width: `20px`
-- Height: `20px`
-- Border: `2px solid #E6E6E6`
-- Border Radius: `4px` (checkbox) / `50%` (radio)
-- Cursor: `pointer`
-- Checked State: Background `#D4A574`, Border `#D4A574`
-- Focus State: Box Shadow `0 0 0 3px rgba(212, 165, 116, 0.2)`
+### 2.3 Type scale
 
-### Navigation
+| Role | Token | Size |
+| --- | --- | --- |
+| Hero H1 | `--ly-h1` (split pairing) | `clamp(40px, 3.048vw + 28.11px, 72px)` |
+| Hero lead | `--ly-lead` | `clamp(17px, .286vw + 15.89px, 20px)` |
+| Section H2 | `--t-h2` | `clamp(30px, 1.72vw + 23.3px, 48px)` |
+| H3 / card title | `--t-h3` / `--t-card` | `24px` / `18px` |
+| Lead / body | `--t-lead` / `--t-body` | `18px` / `16px` |
+| Small / label | `--t-small` / `--t-label` | `14px` / `13px` |
+| Stat | `--t-stat` | `clamp(28px, .952vw + 24.29px, 38px)` |
 
-**Tab Navigation (Active/Inactive)**
-- Background: transparent
-- Text Color (Inactive): `#8B8B8B`
-- Text Color (Active): `#FFFFFF`
-- Padding: `12px 20px`
-- Font Size: `14px`
-- Font Weight: `500`
-- Border Bottom: `2px solid transparent` (inactive) / `2px solid #D4A574` (active)
-- Hover State: Text Color `#FFFFFF`, Border `#D4A574` (200ms transition)
-- Cursor: `pointer`
+### 2.4 Radius and controls
 
-**Bottom Navigation Icon**
-- Size: `24px × 24px`
-- Color (Inactive): `#8B8B8B`
-- Color (Active): `#D4A574`
-- Padding: `8px`
-- Border Radius: `8px`
-- Hover Background: `rgba(212, 165, 116, 0.1)`
+- `data-radius="soft"`: `--r-sm 8`, `--r-md 12`, `--r-lg 20`, `--r-btn 8`.
+- Buttons are `data-buttons="solid"`, height `--btn-h: 44px` (`36px` small).
+- Nothing shares a radius with a different role: cards take `--r-lg`, controls take `--r-btn`.
 
-### Badges
+### 2.5 Components
 
-**Status Badge (Success)**
-- Background: `rgba(45, 122, 110, 0.15)`
-- Text Color: `#2D7A6E`
-- Border: `1px solid #2D7A6E`
-- Padding: `4px 8px`
-- Border Radius: `12px`
-- Font Size: `12px`
-- Font Weight: `500`
+| Component | File | Notes |
+| --- | --- | --- |
+| `Nav` | `components/Nav.tsx` | Centre nav, fixed 72 px, equal edges with the container |
+| `NavCurrent` | `components/NavCurrent.tsx` | Current-section marker (an `::after` underline) |
+| `NavToggle` | `components/NavToggle.tsx` | Phone menu |
+| `ThemeSwitch` | `components/ThemeSwitch.tsx` | Writes through `ThemeProvider` |
+| `LocaleSwitch` | `components/LocaleSwitch.tsx` | Keeps the current path, swaps the locale |
+| `Arrow` / `CodeLine` | `components/` | Monochrome, inline SVG, `currentColor` |
+| Sections | `sections/LandingHero, Services, Approach, Work, Closing` | Composition only, no ad-hoc styling |
 
-**Status Badge (Warning)**
-- Background: `rgba(212, 165, 116, 0.15)`
-- Text Color: `#D4A574`
-- Border: `1px solid #D4A574`
-- Padding: `4px 8px`
-- Border Radius: `12px`
-- Font Size: `12px`
-- Font Weight: `500`
+### 2.6 Copy
 
-## 5. Layout Principles
+- All landing copy lives in the `landing` namespace of `src/locales/{en,vi}.json`, read with `getTranslations`.
+- No invented facts, metrics or clients. If a number is not true, it is not on the page.
+- One voice: plain sentences, second person, no exclamation marks, no "revolutionary".
 
-### Spacing System
-- **Base Unit:** `8px`
-- **Scale:** `8px, 12px, 16px, 20px, 24px, 32px, 40px, 48px, 56px, 64px, 80px, 96px`
-- **Usage Context:**
-  - **Micro (8px–12px):** Internal button padding, icon spacing, tight form layouts
-  - **Small (16px–24px):** Component padding, section margins on mobile, vertical rhythm
-  - **Medium (32px–40px):** Section spacing, card gaps, horizontal padding in containers
-  - **Large (48px–64px):** Major section breaks, page-level margins, full-width section gaps
-  - **XL (80px–96px):** Hero sections, major layout divisions, top-level page margins
+---
 
-### Grid & Container
-- **Max Width:** `1200px` for desktop content containers
-- **Column Strategy:** 12-column grid on desktop; 4-column on tablet; single-column on mobile
-- **Horizontal Padding:** `20px` on mobile, `32px` on tablet, `40px` on desktop
-- **Container Margin:** Centered with `auto` horizontal margins above max-width breakpoint
-- **Section Pattern:** Full-bleed background images with overlay scrim, text content contained within max-width; alternating left/right layouts for destinations
+## 3. Pokémon TeamFight design system
 
-### Whitespace Philosophy
-- **Generous Vertical Rhythm:** Large sections breathe with 48–64px gaps; creates scanning hierarchy
-- **Tight Internal Padding:** Component internals use compact spacing (12–16px) to maintain visual density while section-level gaps remain expansive
-- **Asymmetric Layouts:** Hero imagery takes 100% width; overlaid text and cards use constrained containers for focus
+The game is a self-contained system in `src/features/game/styles/game.css`. Tokens live on the `.game` shell (rendered by `src/app/[locale]/pokemon/layout.tsx`); component modules only consume `var(--g-*)`.
 
-### Border Radius Scale
-- **Sharp (0px):** Images, full-width sections, modal backdrops
-- **Subtle (4px):** Checkboxes, tight form inputs, secondary components
-- **Rounded (8px):** Buttons, standard form inputs, cards, navigation items
-- **Fully Rounded (12px–16px):** Featured cards, emphasized components, premium surfaces
-- **Pill (24px–50%):** Tag chips, badge elements, icon buttons, minimal interactive surfaces
+### 3.1 Palette
 
-## 6. Depth & Elevation
+Light reads like a warm printed console; dark is the same console at night. Values flip on `.dark .game`.
 
-| Level | Treatment | Use |
-|-------|-----------|-----|
-| Level 0 | No shadow | Flat background surfaces, disabled states |
-| Level 1 | `0 2px 8px rgba(0, 0, 0, 0.08)` | Subtle hover states, secondary cards |
-| Level 2 | `0 4px 12px rgba(0, 0, 0, 0.25)` | Primary buttons, featured cards, popovers |
-| Level 3 | `0 8px 32px rgba(0, 0, 0, 0.4)` | Destination cards, elevated surfaces |
-| Level 4 | `0 12px 48px rgba(0, 0, 0, 0.5)` | Card hover states, modal overlays |
+| Token | Light | Dark | Role |
+| --- | --- | --- | --- |
+| `--g-bg` | `#f4e6dd` | `#1c0e17` | Canvas |
+| `--g-panel` | `#fff9f5` | `#2a1521` | Cards |
+| `--g-panel-2` | `#edd8cb` | `#371d2b` | Inset blocks, chips, empty slots |
+| `--g-ink` | `#2b1522` | `#f6e5db` | Primary text |
+| `--g-ink-2` | `#6f4d5b` | `#c9a8a0` | Secondary text, labels |
+| `--g-line` | `#dcc0b0` | `#45273a` | Borders, dividers |
+| `--g-accent` | `#b2332d` | `#e0675c` | Poké red: CTAs, eyebrows, indices |
+| `--g-accent-ink` | `#fdf6f1` | `#1c0e17` | Text on accent |
+| `--g-pine` | `#2b6157` | `#7fc3b0` | Win, success, added |
+| `--g-radius` | `22px` | — | Cards |
+| `--g-radius-sm` | `14px` | — | Controls, slots, insets |
+| `--g-shadow` | `0 24px 54px -36px rgba(43,21,34,.65)` | `0 24px 54px -30px rgba(0,0,0,.8)` | Card lift |
 
-**Shadow Philosophy:** Shadows are used sparingly and consistently to create visual hierarchy without distraction. Deep blacks (`#000000`) with graduated opacity percentages (8%–50%) create layered depth that aligns with the premium travel brand. Shadows increase subtly on interaction to indicate elevation and responsiveness. Over dark backgrounds, shadows use higher opacity to maintain contrast; over light surfaces, opacity is reduced for refinement. No drop shadows on typography; shadows reserved for containers and interactive surfaces only.
+Colour rules:
 
-## 7. Do's and Don'ts
+- **One accent.** Red marks actions, the eyebrow, mode indices and "lost". `--g-pine` marks wins and positive toasts. Nothing else is coloured.
+- **Type colour lives on the dot only.** Chips are neutral (`panel-2` + line) with a 7 px dot, so the label always passes contrast in both themes.
+- Borders do the separation; shadows are a whisper, never the main depth cue.
+- `color-scheme` is set per theme so native inputs and scrollbars follow.
 
-### Do
-- Always maintain **4.5:1 contrast ratio** for text against any background
-- Use **full-bleed hero imagery** with overlay scrim (`rgba(0, 0, 0, 0.4)` minimum) for text legibility
-- Layer **cards with consistent 12–16px border radius** for modern polish
-- Employ **generous vertical spacing** (48–64px) between major sections for breathing room
-- Apply **hover transitions of 200–300ms** on all interactive elements for smooth feedback
-- Use **serif (Georgia) typography** only on hero headlines and premium editorial moments
-- Implement **tab focus indicators** with 3px outline in `#D4A574` at 2px offset for keyboard accessibility
-- Provide **both icon and text labels** in navigation for mobile clarity
-- Use **color transitions** (not just opacity) on hover states for perceived interactivity
-- Validate form inputs with **real-time feedback** using status badges above/below fields
+### 3.2 Type
 
-### Don't
-- Don't use **pure white (#FFFFFF) as primary background**; stick to `#000000` or `#1C1C1C` for visual consistency
-- Don't apply **shadows to text elements** or typography—use color contrast instead
-- Don't mix **more than two accent colors** in a single component
-- Don't use **border radius below 4px** on interactive elements; maintain minimum roundness for touch targets
-- Don't place **text directly over unmodified images**; always apply scrim overlay or background darkening
-- Don't exceed **three font sizes** within a single component family
-- Don't use **abrupt color transitions** on hover; always animate with `transition: all 0.3s ease`
-- Don't stack **more than two rows of tags** in a single card; prioritize and truncate
-- Don't ignore **dark mode context**; test all colors against `#000000` backgrounds for contrast
-- Don't apply **focus states only via color**; include outline or clear visual indicator for keyboard users
+| Role | Class | Spec |
+| --- | --- | --- |
+| Page title | `.g-title` | `clamp(40px, 5.4vw, 68px)`, 500, `-0.04em`, `0.98` |
+| Sub-page title | `.g-title--sm` | `clamp(32px, 3.6vw, 46px)`, 500, `-0.035em` |
+| Card title | `.g-h2` | `19px`, 600, `-0.015em` |
+| Lead | `.g-lead` | `17px` (16 phone), `1.55`, `--g-ink-2`, max `48ch` |
+| Eyebrow | `.g-eyebrow` | `11px`, 600, `0.16em`, uppercase, `--g-accent` |
+| Label | `.g-label` | `11px`, 600, `0.12em`, uppercase, `--g-ink-2` |
+| Body | `.game` | `16px`, `1.5` |
+| Numbers | `.g-num` | tabular-nums |
 
-## 8. Responsive Behavior
+Pokémon and ability names are humanised in JS (`humanize()` in `src/features/game/utils/format.ts`), not by CSS `capitalize` — that is what keeps "(hidden)" lowercase.
 
-### Breakpoints
+### 3.3 Spacing, shape and rhythm
 
-| Breakpoint Name | Width | Key Changes |
-|-----------------|-------|-------------|
-| Mobile | 320px–639px | Single column layout, full-width cards, 20px horizontal padding, 32px section gaps, touch targets 48px minimum |
-| Tablet | 640px–1023px | 2-column grid for cards, 32px horizontal padding, 48px section gaps, hero height 240px |
-| Desktop | 1024px–1439px | 3-column grid, 40px horizontal padding, 64px section gaps, 1200px max-width container, hero height 320px |
-| Large Desktop | 1440px+ | 1200px fixed max-width centered, 4-column grid for card layouts, max hero height 400px |
+| Token / rule | Value |
+| --- | --- |
+| `.g-wrap` | `max-width: 1200px`, `padding-inline: 32px` (20 phone) |
+| `.g-main` | `padding-block: 36px 52px` (28 / 48 phone) |
+| Top bar | `64px` (58 phone), sticky, **opaque** `--g-bg` + 1 px line |
+| Cards | `22px` radius, 1 px line, `--g-panel` |
+| Controls | `46px` min height, `14px` radius |
+| Inputs | `48px` height, `14px` radius |
+| Icon buttons | `28px` circle |
+| Gaps | 4 / 8 / 10 / 12 / 16 / 18 / 24 px |
 
-### Touch Targets
-- **Minimum Size:** `48px × 48px` for all tappable elements on mobile (buttons, icon buttons, links)
-- **Spacing:** Minimum `16px` gap between adjacent touch targets to prevent mis-taps
-- **Hover Area:** Desktop interactive elements scale to `16px × 16px` minimum with 8px padding buffer
-- **Button Padding:** Mobile buttons use `14px vertical × 32px horizontal`; desktop maintains consistency with increased font size
+The bar is deliberately opaque: a translucent bar ghosts scrolling content in headless captures and on slow compositors.
 
-### Collapsing Strategy
-- **Hero Section:** Height reduces from 400px (large desktop) → 320px (desktop) → 240px (tablet) → 200px (mobile); text size scales from 56px → 40px → 28px
-- **Cards:** 4-column grid collapses to 3-column (desktop) → 2-column (tablet) → 1-column (mobile) with consistent 16px gaps
-- **Navigation:** Tab navigation remains horizontal on tablet+; bottom navigation appears on mobile below fold
-- **Containers:** Padding reduces from 40px (desktop) → 32px (tablet) → 20px (mobile); margins scale proportionally
-- **Typography:** Heading sizes reduce by 8–12px at each breakpoint; body text remains 16px on mobile for readability
-- **Imagery:** Aspect ratio preserved; images scale fluidly with `max-width: 100%` and `object-fit: cover`
+### 3.4 Components
 
-## 9. Agent Prompt Guide
+**Top bar** — `.g-bar`, `.g-brand`, `.g-bar__in`. Inline pokéball mark drawn with `currentColor` + `--g-accent` and `--g-bg` (never the old PNG). Brand → `/pokemon`, `← Home` on sub-pages, `Portfolio ↗` → `/`.
 
-### Quick Color Reference
-- **Primary CTA:** Golden Warm (`#D4A574`) — use for primary action buttons, highlights
-- **Secondary CTA:** Emerald Active (`#2D7A6E`) — use for secondary actions, active states
-- **Background:** Dark Background (`#000000`) — primary canvas for all dark mode
-- **Accent Surface:** Near Black (`#0E0E0E`) — nested containers, dividers
-- **Text Primary:** White (`#FFFFFF`) — all text on dark backgrounds
-- **Text Secondary:** Medium Gray (`#8B8B8B`) — disabled, placeholder, secondary text
-- **Borders:** Border Subtle (`#333333`) — component separators, input strokes
-- **Light Surface:** Cream/Off-White (`#E8E4DC`) — information cards, light overlays
-- **Overlay Scrim:** Overlay Scrim (`#00000066`) — image text protection, depth layering
+**Primitives**
 
-### Iteration Guide
+| Class | Purpose | Spec |
+| --- | --- | --- |
+| `.g-card` | Panel | `--g-panel`, 1 px line, `22px`, shadow |
+| `.g-btn` + `--primary` | Main action | accent ground, `--g-accent-ink`, hover darkens + 1 px lift |
+| `.g-btn--secondary` | Strong alternative | `--g-ink` ground, `--g-bg` text |
+| `.g-btn--ghost` | Quiet action | transparent, line border, fills `panel-2` on hover |
+| `.g-btn:disabled` | Off | neutral `panel-2` + `--g-ink-2` text, **no opacity fade** |
+| `.g-field` / `.g-input` | Text input | 48 px, focus ring `0 0 0 3px accent 18%` |
+| `.g-search` | Search row | input + solid Search button, magnifier inline |
+| `.g-chip` | Neutral chip | 26 px pill, uppercase 11 px |
+| `.g-chip--good` / `--bad` | Outcome | pine / accent tints |
+| `.g-num` | Tabular figures | score, count, EXP |
 
-1. **Always layer dark mode backgrounds** with `#000000` as base; use `#1C1C1C` only for elevated containers (cards, popovers)
-2. **Apply shadow elevation incrementally:** Level 2 shadows for primary buttons and featured cards; Level 3+ only for hover/active states
-3. **Maintain typography hierarchy** by restricting serif to 56px+ headlines only; all UI copy uses sans-serif Segoe UI
-4. **Ensure 200–300ms transitions** on all color and transform properties to signal interactivity without feeling sluggish
-5. **Use accent colors sparingly:** Golden Warm `#D4A574` reserved for primary actions and premium highlights; Emerald `#1A4D3E` for secondary tags/filters
-6. **Scale padding and margins consistently** using the 8px base unit; never use arbitrary values—always snap to scale
-7. **Apply overlay scrims** (`rgba(0, 0, 0, 0.4)` minimum) over all image backgrounds containing text for WCAG contrast compliance
-8. **Use border-radius 8px as default** for buttons and form inputs; increase to 12–16px only for featured cards; use 4px for tight components
-9. **Test all focus states** with keyboard navigation; provide 2px outline in `#D4A574` at 2px offset minimum for tab users
-10. **Implement responsive scaling** at breakpoints: headings reduce 8–12px per tier, container padding scales (40px → 32px → 20px), card grids collapse (4 → 3 → 2 → 1)
+Disabled buttons stay legible: opacity-based disabling made labels vanish on dark grounds.
+
+**Type chip** — `BaseSmallType` → `.type[data-type]`. 24 px pill, `panel-2`, 1 px line, 10.5 px uppercase label and a 7 px dot with a 3 px halo at 18% of the dot colour.
+
+| Type | Dot | Type | Dot | Type | Dot |
+| --- | --- | --- | --- | --- | --- |
+| normal | `#8f8479` | fire | `#d9533a` | water | `#4a86c8` |
+| electric | `#c9a11b` | grass | `#4f9457` | ice | `#5eafbd` |
+| fighting | `#a8542f` | poison | `#8f55a0` | ground | `#b8925a` |
+| flying | `#8496c4` | psychic | `#c95c86` | bug | `#8a9a35` |
+| rock | `#a08a5f` | ghost | `#6a5a9e` | dragon | `#6455c8` |
+| dark | `#55494a` | steel | `#879096` | fairy | `#cf86ab` |
+
+`unknown` `#7c8b86`, `shadow` `#4a3f52`. Adding a type = one `data-type` row, no component change.
+
+**EXP chip** — `BaseExperienceBar`. `EXP` in 9.5 px caps + the value in 13 px 600 tabular. No progress bars: a bar whose fill is never explained reads as broken, so the number is shown plainly.
+
+**Team row (builder)** — `PokemonTeamItem`. Grid `52px 1fr 28px`: pixelated sprite, name + type chips + abilities (ellipsised) + EXP, circular remove button that turns accent on hover.
+
+**Team row (fight)** — `PokemonFightItem`. Grid `42px 1fr auto`: sprite, name + chips, EXP. Chips hide under 520 px so six rows stay one card.
+
+**Roster card (home)** — `.roster`. 3 × 2 slots; filled slots take `panel-2` with a solid line, empty slots are dashed and show `01…06` + `EMPTY`. Footer carries the record `3W · 1T · 2L` or "No battles yet".
+
+**Record card** — `SummaryBox`. `dl` of Won/Tied/Lost with a 22 px total, tabular.
+
+**Toast** — builder feedback. Fixed bottom-centre, pill, 13 px, tinted pine (success) or accent (error), auto-dismissed at 1.8 s, `role="status"`. Kept off the layout flow so it is visible on a phone where the roster is below the fold.
+
+**Spinner** — `PokeballLoadingSpinner`. 44 px pokéball, 1.1 s spin, `role="status"`, static under reduced motion.
+
+**Footer** — `.g-foot`. Credits left, "Copyrights belong to Pokémon Company" right; stacks on phones.
+
+### 3.5 Page composition
+
+| Page | Grid | Behaviour |
+| --- | --- | --- |
+| Home | `1.05fr / 0.85fr` | Intro + two mode rows (01 create, 02 fight — locked until 6) + live roster |
+| Create | `minmax(320px,400px) / 1fr` | Sticky team card (88 px top, clear of the bar) + find-a-Pokémon card |
+| Fight — prepare | `1fr / 240px / 1fr` | Your team, VS + battle button, record |
+| Fight — result | `1fr / 72px / 1fr` | Two team cards with WON / LOST / TIED chips + margin line |
+
+Breakpoints:
+
+| Width | Change |
+| --- | --- |
+| ≤ 1020 px | Create and fight collapse to one column; the find card comes first |
+| ≤ 960 px | Home hero stacks; roster follows the intro |
+| ≤ 860 px | Result teams stack, VS sits between them |
+| ≤ 760 px | Detail card art stacks over the info |
+| ≤ 700 px | Wrap padding 20 px, bar 58 px, mode metadata drops the count |
+| ≤ 600 px | Builder header actions go full width, equal |
+| ≤ 520 px | Fight rows drop type chips |
+
+No horizontal overflow at 390, 900, 1280 or 1600.
+
+### 3.6 States
+
+- **Empty builder** — six dashed slots numbered `01…06`.
+- **Locked fight** — the mode row is a non-link with `aria-disabled` and "N to go"; the fight route itself renders a "Your team needs six." card with a primary link back to the builder, never a redirect.
+- **Full team** — "Add to team" and the random pick disable with the neutral disabled style.
+- **Searching** — spinner inside the result area, card height reserved (`min-height: 300px`).
+- **Not found** — "No Pokémon found." + the real range (1–1,154), no dead end.
+- **Battle error** — inline `role="alert"` under the header, button re-enabled.
+- **Result** — outcome in the headline *and* the chip, never colour alone; the score increments exactly once per battle.
+
+### 3.7 Content rules
+
+- Sentence case, second person, no exclamation marks. "Build the team. Take the fight."
+- The rules of the game are stated where they matter: "The higher total EXP takes the battle."
+- Pokémon names come from PokéAPI (lowercase, hyphenated) and read as titles; abilities are humanised.
+- No fake opponents: the opponent is six real API Pokémon, labelled "Challenger".
+
+---
+
+## 4. File map
+
+```
+src/app/layout.tsx                     boot script, html settings, ThemeProvider
+src/app/[locale]/pokemon/layout.tsx    .game shell + next/font + PlayerProvider
+src/features/portfolio/kit/tokens.css  blush-aubergine palette, light + dark
+src/features/portfolio/kit/system.css  spacing/type/radius/control scale
+src/features/portfolio/kit/layout.css  one-section-per-screen arithmetic
+src/features/portfolio/components/     Nav, switches, Arrow, CodeLine
+src/features/portfolio/sections/       LandingHero, Services, Approach, Work, Closing
+src/features/game/styles/game.css      --g-* tokens + g- primitives
+src/features/game/GamePage.*           home
+src/features/game/CreateTeam.*         builder
+src/features/game/TeamFightPage.*      prepare + result
+src/features/game/components/          primitives, pokemon, layout (GameBar, footer)
+```
+
+## 5. Do / Don't
+
+**Do**
+
+- Change a look by changing a token, in one place.
+- Test every screen at 390 and 1440 in both themes and both locales.
+- Keep one accent per surface and let scale, weight and spacing carry hierarchy.
+- Use tabular numerals wherever a number can change.
+- Keep card content inside the container edges.
+
+**Don't**
+
+- Don't add a second hue, gradient or glass panel to the game.
+- Don't paint a type colour on chip text or backgrounds.
+- Don't fade a disabled control to invisibility — neutralise it instead.
+- Don't put captions under visuals, or a visual under a caption.
+- Don't hard-code hex values in component modules; only `--g-*` / `--p-*`.
+- Don't invent a metric, a client or a Pokémon fact to fill space.
+- Don't reintroduce a desktop-only gate: the game is responsive at every width.
