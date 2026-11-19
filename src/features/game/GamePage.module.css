@@ -1,71 +1,287 @@
-.background {
-  height: inherit;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-image: url("/pokemon/homepage/background.svg");
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.85fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
 }
 
-.container {
-  position: relative;
-  max-width: 1440px;
-  height: inherit;
-  margin: 0 auto;
-  padding: 25px 20px;
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.main {
-  height: inherit;
+.intro h1 {
+  max-width: 13ch;
+}
+
+/* --- mode index --------------------------------------------------------- */
+
+.modes {
+  display: flex;
+  flex-direction: column;
+  margin-top: 6px;
+  border-top: 1px solid var(--g-line);
+}
+
+.mode {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 20px 4px;
+  border-bottom: 1px solid var(--g-line);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    padding 0.2s ease;
+}
+
+.mode:hover {
+  padding-inline: 10px;
+  background: color-mix(in oklab, var(--g-panel) 70%, transparent);
+}
+
+.modeOff {
+  cursor: not-allowed;
+}
+
+.modeOff:hover {
+  padding-inline: 4px;
+  background: none;
+}
+
+.index {
+  align-self: start;
+  padding-top: 4px;
+  color: var(--g-accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+
+.modeTitle {
+  display: block;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.modeDesc {
+  display: block;
+  margin-top: 3px;
+  color: var(--g-ink-2);
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--g-ink-2);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.metaCount {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.mode:hover .arrow {
+  border-color: var(--g-ink);
+  background: var(--g-ink);
+  color: var(--g-bg);
+  transform: translateX(2px);
+}
+
+.modeOff .arrow {
+  opacity: 0.5;
+}
+
+.modeOff:hover .arrow {
+  border-color: var(--g-line);
+  background: none;
+  color: inherit;
+  opacity: 0.5;
+  transform: none;
+}
+
+.note {
+  color: var(--g-ink-2);
+  font-size: 12.5px;
+}
+
+/* --- saved roster ------------------------------------------------------- */
+
+.roster {
+  padding: 22px;
+}
+
+.rosterHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--g-line);
+}
+
+.rosterName {
+  margin-top: 3px;
+  font-size: 23px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.count {
+  flex: none;
+  padding: 3px 10px;
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  color: var(--g-ink-2);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.roster .slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding-block: 18px;
+}
+
+.slot {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.logo {
-  transition: transform 250ms ease;
-}
-
-.logo:hover {
-  transform: scale(1.2);
-}
-
-.menu {
-  display: flex;
   justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  margin-bottom: 80px;
-  gap: 150px;
+  gap: 6px;
+  min-height: 96px;
+  padding: 8px 6px;
+  border: 1px dashed var(--g-line);
+  border-radius: var(--g-radius-sm);
+  background: color-mix(in oklab, var(--g-panel-2) 46%, transparent);
 }
 
-.pokeballIcon {
-  transition: transform 500ms ease;
+.slotFilled {
+  border-style: solid;
+  background: var(--g-panel-2);
 }
 
-.pokeballIcon:hover {
-  transform: rotate(720deg) scale(1.2);
+.slotSprite {
+  width: 52px;
+  height: 52px;
+  image-rendering: pixelated;
 }
 
-.buttonWrapper {
+.slotName {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--g-ink);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.slotIndex {
+  color: var(--g-ink-2);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.65;
+}
+
+.slotEmpty {
+  color: var(--g-ink-2);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+.rosterFoot {
   display: flex;
   align-items: center;
-  flex-direction: column-reverse;
-  gap: 5px;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--g-line);
+  color: var(--g-ink-2);
+  font-size: 12.5px;
 }
 
-.buttonWrapper > div,
-.buttonWrapper > img {
-  transition: opacity 250ms ease, transform 250ms ease;
-  transform: translateY(-10px);
-  opacity: 0;
+.record {
+  color: var(--g-ink);
 }
 
-.buttonWrapper a:hover ~ div,
-.buttonWrapper a:hover ~ img {
-  transform: translateY(0);
-  opacity: 1;
+/* --- small screens ------------------------------------------------------ */
+
+@media (max-width: 960px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    align-items: start;
+  }
+
+  .intro h1 {
+    max-width: 16ch;
+  }
 }
 
-.buttonWrapper h2 {
-  text-align: center;
+@media (max-width: 700px) {
+  .intro {
+    gap: 16px;
+  }
+
+  .mode {
+    grid-template-columns: 26px minmax(0, 1fr) auto;
+    gap: 10px;
+    padding-block: 16px;
+  }
+
+  .modeTitle {
+    font-size: 17px;
+  }
+
+  .modeDesc {
+    font-size: 13px;
+  }
+
+  .metaCount {
+    display: none;
+  }
+
+  .slots {
+    gap: 8px;
+  }
+
+  .slot {
+    min-height: 84px;
+  }
+
+  .slotSprite {
+    width: 44px;
+    height: 44px;
+  }
 }

@@ -1,22 +1,21 @@
-.baseExperience {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 3px;
-  color: var(--softWhite);
+.exp {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  color: var(--g-ink-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
-.baseExperience .baseExperience__title {
-  display: inline-block;
-  padding: 3px;
-  background-color: var(--softBlack);
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
+
+.label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
-.baseExperience .baseExperience__exp {
-  display: inline-block;
-  padding: 1px 25px;
-  background-color: var(--deepSkyBlue);
-  border: 2px solid var(--softBlack);
-  border-left-width: 0;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
+
+.value {
+  color: var(--g-ink);
+  font-size: 13px;
+  font-weight: 600;
 }

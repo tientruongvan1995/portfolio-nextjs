@@ -1,15 +1,34 @@
-import styles from "./SummaryBox.module.css";
+import styles from './SummaryBox.module.css';
 
-const SummaryBox = ({ score, isYourTeam }) => {
+const SummaryBox = ({ score }) => {
+  const total = score.won + score.tied + score.loss;
+
   return (
-    <div className={`${styles.summaryBox} ${isYourTeam ? styles.yourTeam : styles.enemyTeam}`}>
-      <h3>Your summary</h3>
-      <p>Won: {isYourTeam ? score.won : score.loss}</p>
-      <p>Tied: {score.tied}</p>
-      <p>Loss: {isYourTeam ? score.loss : score.won}</p>
-      <div className={`horizontalBar full ${isYourTeam ? "lightGreen" : "orange"}`}></div>
-      <p>Total: {score.won + score.tied + score.loss}</p>
-    </div>
+    <section className={`g-card ${styles.record}`}>
+      <header>
+        <p className="g-label">Your record</p>
+      </header>
+
+      <dl className={styles.rows}>
+        <div className={styles.row}>
+          <dt>Won</dt>
+          <dd className="g-num">{score.won}</dd>
+        </div>
+        <div className={styles.row}>
+          <dt>Tied</dt>
+          <dd className="g-num">{score.tied}</dd>
+        </div>
+        <div className={styles.row}>
+          <dt>Lost</dt>
+          <dd className="g-num">{score.loss}</dd>
+        </div>
+      </dl>
+
+      <div className={styles.total}>
+        <span>Battles</span>
+        <strong className="g-num">{total}</strong>
+      </div>
+    </section>
   );
 };
 

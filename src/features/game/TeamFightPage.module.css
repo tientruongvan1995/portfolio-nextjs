@@ -1,51 +1,144 @@
-.whiteColor {
-  color: var(--softWhite);
-}
-
-.background {
-  height: inherit;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-image: url("/pokemon/fight/background.svg");
-}
-
-.container {
+.head {
   display: flex;
   flex-direction: column;
-  position: relative;
-  max-width: 1440px;
-  height: inherit;
-  margin: 0 auto;
-  padding: 25px 20px;
+  gap: 12px;
+  margin-bottom: 28px;
 }
 
-.header {
-  width: 100%;
+.board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
 }
 
-.header h1 {
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   text-align: center;
 }
 
-.headerLinks {
-  position: absolute;
+.center p {
+  max-width: 22ch;
+  color: var(--g-ink-2);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.vs {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  background: var(--g-panel);
+  color: var(--g-ink);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  box-shadow: var(--g-shadow);
+}
+
+/* --- result ------------------------------------------------------------- */
+
+.resultHead {
   display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
   gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
-.backButtonState {
-  cursor: pointer;
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-  border: none;
-}
-
-.main {
-  height: inherit;
+.resultText {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resultRow {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.margin {
+  color: var(--g-ink-2);
+  font-size: 14px;
+}
+
+.margin strong {
+  color: var(--g-ink);
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.teams {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px minmax(0, 1fr);
+  gap: 20px;
   align-items: center;
-  justify-content: center;
-  gap: 100px;
+}
+
+.vsSmall {
+  justify-self: center;
+}
+
+.error {
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in oklab, var(--g-accent) 38%, var(--g-line));
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--g-accent) 8%, transparent);
+  color: var(--g-accent);
+  font-size: 13px;
+}
+
+/* --- empty -------------------------------------------------------------- */
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 560px;
+  margin: 32px auto 0;
+  padding: 44px 28px;
+  text-align: center;
+}
+
+.empty :global(.g-lead) {
+  max-width: 40ch;
+}
+
+@media (max-width: 1020px) {
+  .board {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .center {
+    order: 2;
+    padding-block: 6px;
+  }
+}
+
+@media (max-width: 860px) {
+  .teams {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .resultHead {
+    margin-bottom: 24px;
+  }
 }

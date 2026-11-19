@@ -1,212 +1,213 @@
 'use client';
 
-import NoDesktopLayout from '@/features/game/components/layout/NoDesktopLayout';
+import CopyrightFooter from '@/features/game/components/layout/CopyrightFooter';
+import GameBar from '@/features/game/components/layout/GameBar/GameBar';
 import BaseButton from '@/features/game/components/primitive/BaseButton';
 import { usePlayerContext } from '@/features/game/context/player';
-import { useMediaQuery } from '@/utils/use-hooks';
-import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { fetchPokemonAPI, POKEMON_COUNT } from './api/pokemon';
-import PokeballLoadingSpinner from './components/PokeballLoadingSpinner';
 import PokemonTeam from './components/pokemon/PokemonTeam';
 import SummaryBox from './components/SummaryBox/SummaryBox';
-
-import styles from './TeamFightPage.module.css';
-import { Player } from './model/player';
 import { Pokemon } from './model/pokemon';
 
-type PrepareBattleProps = {
-  playerInfo: Player;
-  handleBattle: () => Promise<void>;
-};
+import styles from './TeamFightPage.module.css';
 
-type TeamBattleProps = {
-  allyTeam: Player;
-  enemyTeam: Pokemon[];
-};
+type FightResult = 'won' | 'loss' | 'tied';
 
-// ===============
+const TEAM_SIZE = 6;
 
-const PrepareBattle = ({ playerInfo, handleBattle }: PrepareBattleProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+const sumExperience = (team: Pokemon[]) =>
+  team.reduce((total, pokemon) => total + pokemon.baseExperience, 0);
 
-  const handleBattleWithLoading = async () => {
-    setIsLoading(true);
-    await handleBattle();
-    setIsLoading(false);
-  };
-
-  if (isLoading) {
-    return (
-      <main className={styles.main}>
-        <PokeballLoadingSpinner />
-      </main>
-    );
-  }
-
-  return (
-    <main className={styles.main}>
-      <SummaryBox score={playerInfo.score} isYourTeam={true} />
-      <div>
-        <Image
-          src="/pokemon/fight/pikachu-serious.png"
-          alt=""
-          width="289"
-          height="150"
-          style={{ marginLeft: 'auto', marginRight: 'auto' }}
-        />
-        <BaseButton buttonType="tertiary" onClick={handleBattleWithLoading}>
-          <h2>
-            THE BATTLE
-            <br />
-            BEGINS!
-          </h2>
-        </BaseButton>
-      </div>
-      <SummaryBox score={playerInfo.score} isYourTeam={false} />
-    </main>
-  );
-};
-
-const TeamBattle = ({ allyTeam, enemyTeam }: TeamBattleProps) => {
-  const enemyTeamName = `${enemyTeam[1].name} ${enemyTeam[4].name}`;
-
-  const sumBaseExpAlly = allyTeam.team.reduce((acc, pokemon) => pokemon.baseExperience + acc, 0);
-  const sumBaseExpEnemy = enemyTeam.reduce((acc, pokemon) => pokemon.baseExperience + acc, 0);
-
-  return (
-    <main className={styles.main}>
-      <PokemonTeam
-        team={allyTeam.team}
-        teamName={allyTeam.teamName}
-        isYourTeam={true}
-        isWin={sumBaseExpAlly > sumBaseExpEnemy}
-      />
-      <Image src="/pokemon/fight/versus.svg" alt="" height="192" width="222" />
-      <PokemonTeam
-        team={enemyTeam}
-        teamName={enemyTeamName}
-        isYourTeam={false}
-        isWin={sumBaseExpEnemy > sumBaseExpAlly}
-      />
-    </main>
-  );
-};
-
-const getRandomPokemonInEnemyTeam = async (): Promise<Pokemon> => {
+const getRandomPokemon = async (attempt = 0): Promise<Pokemon> => {
   const randomIndex = Math.floor(Math.random() * POKEMON_COUNT) + 1;
   const pokemon = await fetchPokemonAPI(randomIndex);
 
-  // fallback
-  if (!pokemon || Object.keys(pokemon).length == 0) {
-    return await getRandomPokemonInEnemyTeam();
+  if (pokemon && Object.keys(pokemon).length > 0) {
+    return pokemon;
   }
 
-  return pokemon;
+  if (attempt < 2) {
+    return getRandomPokemon(attempt + 1);
+  }
+
+  throw new Error('Could not summon an opponent');
 };
 
 const generateEnemyTeam = async (): Promise<Pokemon[]> => {
-  let pokemonTeam: Pokemon[] = [];
-  for (let i = 0; i < 6; i++) {
-    const pokemon = await getRandomPokemonInEnemyTeam();
-    pokemonTeam = [...pokemonTeam, pokemon];
+  const team: Pokemon[] = [];
+
+  for (let index = 0; index < TEAM_SIZE; index += 1) {
+    team.push(await getRandomPokemon());
   }
-  return pokemonTeam;
+
+  return team;
+};
+
+const getOutcome = (allyTotal: number, enemyTotal: number): FightResult => {
+  if (allyTotal > enemyTotal) return 'won';
+  if (allyTotal < enemyTotal) return 'loss';
+  return 'tied';
+};
+
+const HEADLINES: Record<FightResult, string> = {
+  won: 'You won.',
+  loss: 'You lost.',
+  tied: 'A draw.',
 };
 
 const TeamFightPage = () => {
-  const router = useRouter();
   const [playerInfo, setPlayerInfo] = usePlayerContext();
-  const [isDesktop] = useMediaQuery();
   const [enemyTeam, setEnemyTeam] = useState<Pokemon[]>([]);
   const [isFighting, setIsFighting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const setResult = useCallback(
-    (fightResult: 'won' | 'loss' | 'tied') => {
-      setPlayerInfo({
-        ...playerInfo,
-        score: { ...playerInfo.score, [fightResult]: playerInfo.score[fightResult] + 1 },
-      });
-    },
-    [playerInfo, setPlayerInfo],
-  );
+  const teamIsReady = Boolean(playerInfo.teamName) && playerInfo.team.length === TEAM_SIZE;
 
   const handleBattle = async () => {
-    const pokemonTeam = await generateEnemyTeam();
+    setIsLoading(true);
+    setErrorMessage('');
 
-    const sumBaseExpAlly = playerInfo.team.reduce(
-      (acc, pokemon) => pokemon.baseExperience + acc,
-      0,
-    );
-    const sumBaseExpEnemy = pokemonTeam.reduce((acc, pokemon) => pokemon.baseExperience + acc, 0);
+    try {
+      const opponents = await generateEnemyTeam();
+      const outcome = getOutcome(sumExperience(playerInfo.team), sumExperience(opponents));
 
-    if (sumBaseExpAlly > sumBaseExpEnemy) {
-      setResult('won');
-    } else if (sumBaseExpAlly < sumBaseExpEnemy) {
-      setResult('loss');
-    } else {
-      setResult('tied');
+      setPlayerInfo({
+        ...playerInfo,
+        score: { ...playerInfo.score, [outcome]: playerInfo.score[outcome] + 1 },
+      });
+      setEnemyTeam(opponents);
+      setIsFighting(true);
+    } catch {
+      setErrorMessage('The opponent could not be reached. Check your connection and try again.');
+    } finally {
+      setIsLoading(false);
     }
-
-    setEnemyTeam(pokemonTeam);
-    setIsFighting(true);
   };
 
-  useEffect(() => {
-    if (!playerInfo.teamName || playerInfo.team.length < 6) {
-      router.replace('/home');
-      return;
-    }
-  }, [playerInfo.team, playerInfo.teamName, router]);
+  if (!teamIsReady) {
+    const hint =
+      playerInfo.team.length < TEAM_SIZE
+        ? `You have ${playerInfo.team.length} of ${TEAM_SIZE} Pokémon chosen.`
+        : 'Your team has no name yet.';
+
+    return (
+      <>
+        <GameBar back />
+        <main className="g-main">
+          <div className="g-wrap">
+            <section className={`g-card ${styles.empty}`}>
+              <p className="g-eyebrow">Team fight</p>
+              <h1 className="g-title g-title--sm">Your team needs six.</h1>
+              <p className="g-lead">
+                A battle takes a named team of six Pokémon. {hint}
+              </p>
+              <BaseButton role="link" href="/pokemon/team/create">
+                Build your team
+              </BaseButton>
+            </section>
+          </div>
+        </main>
+        <CopyrightFooter />
+      </>
+    );
+  }
+
+  if (isFighting) {
+    const allyTotal = sumExperience(playerInfo.team);
+    const enemyTotal = sumExperience(enemyTeam);
+    const outcome = getOutcome(allyTotal, enemyTotal);
+    const enemyOutcome: FightResult =
+      outcome === 'won' ? 'loss' : outcome === 'loss' ? 'won' : 'tied';
+
+    return (
+      <>
+        <GameBar back />
+        <main className="g-main">
+          <div className="g-wrap">
+            <header className={styles.resultHead}>
+              <div className={styles.resultText}>
+                <p className="g-eyebrow">Battle result</p>
+                <div className={styles.resultRow}>
+                  <h1 className="g-title g-title--sm">{HEADLINES[outcome]}</h1>
+                  <p className={`${styles.margin} g-num`}>
+                    <strong>{allyTotal}</strong> vs <strong>{enemyTotal}</strong> EXP
+                  </p>
+                </div>
+              </div>
+              <div className={styles.actions}>
+                <BaseButton onClick={handleBattle} disabled={isLoading}>
+                  {isLoading ? 'Summoning…' : 'Fight again'}
+                </BaseButton>
+                <BaseButton
+                  buttonType="tertiary"
+                  onClick={() => setIsFighting(false)}
+                  disabled={isLoading}
+                >
+                  Back to prepare
+                </BaseButton>
+              </div>
+            </header>
+
+            {errorMessage && (
+              <p className={styles.error} role="alert">
+                {errorMessage}
+              </p>
+            )}
+
+            <div className={styles.teams}>
+              <PokemonTeam
+                isYourTeam
+                teamName={playerInfo.teamName}
+                team={playerInfo.team}
+                result={outcome}
+              />
+              <span className={`${styles.vs} ${styles.vsSmall}`}>VS</span>
+              <PokemonTeam teamName="Challenger" team={enemyTeam} result={enemyOutcome} />
+            </div>
+          </div>
+        </main>
+        <CopyrightFooter />
+      </>
+    );
+  }
 
   return (
     <>
-      <Head>
-        <title>Team Fight - Pokémon TeamFight</title>
-        <meta name="description" content="Fight battles with your Pokémon team!" />
-        <link rel="icon" href="/favicon.png" type="image/png" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head>
+      <GameBar back />
+      <main className="g-main">
+        <div className="g-wrap">
+          <header className={styles.head}>
+            <p className="g-eyebrow">Team fight</p>
+            <h1 className="g-title g-title--sm">Prepare your Pokémon.</h1>
+            <p className="g-lead">
+              Six against six. The higher total EXP takes the battle — your record carries over.
+            </p>
+          </header>
 
-      {isDesktop ? (
-        <div className={styles.background}>
-          <div className={styles.container}>
-            <header className={styles.header}>
-              <div style={{ position: 'absolute', display: 'flex', gap: 20 }}>
-                {!isFighting ? (
-                  <Link href="/pokemon">
-                    <Image src="/pokemon/icons/go-back.svg" alt="" width="128" height="42" />
-                  </Link>
-                ) : (
-                  <>
-                    <button className={styles.backButtonState} onClick={() => setIsFighting(false)}>
-                      <Image src="/pokemon/icons/go-back.svg" alt="" width="128" height="42" />
-                    </button>
-                    <Link href="/pokemon">
-                      <Image src="/pokemon/icons/go-home.svg" alt="" width="42" height="42" />
-                    </Link>
-                  </>
-                )}
-              </div>
-              <h1>
-                PREPARE YOU<span className={styles.whiteColor}>R POKÉMONS</span>
-              </h1>
-            </header>
-            {!isFighting ? (
-              <PrepareBattle playerInfo={playerInfo} handleBattle={handleBattle} />
-            ) : (
-              <TeamBattle allyTeam={playerInfo} enemyTeam={enemyTeam} />
-            )}
+          {errorMessage && (
+            <p className={styles.error} role="alert">
+              {errorMessage}
+            </p>
+          )}
+
+          <div className={styles.board}>
+            <PokemonTeam isYourTeam teamName={playerInfo.teamName} team={playerInfo.team} />
+
+            <div className={styles.center}>
+              <span className={styles.vs}>VS</span>
+              <BaseButton onClick={handleBattle} disabled={isLoading}>
+                {isLoading ? 'Summoning…' : 'The battle begins'}
+              </BaseButton>
+              <p>Highest total EXP wins.</p>
+            </div>
+
+            <SummaryBox score={playerInfo.score} />
           </div>
         </div>
-      ) : (
-        <NoDesktopLayout />
-      )}
+      </main>
+      <CopyrightFooter />
     </>
   );
 };

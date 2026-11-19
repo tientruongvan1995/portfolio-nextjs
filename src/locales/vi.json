@@ -43,5 +43,140 @@
     "copy": "© 2026. React Native Developer • Luôn học hỏi, xây dựng quy mô.",
     "email": "tientruongvan1995@gmail.com",
     "phone": "+84 936 952 906"
+  },
+  "landing": {
+    "meta": {
+      "title": "Lập trình viên React Native nhận dự án · Tien Truong",
+      "description": "Tám năm làm ứng dụng iOS và Android tại Huế, Việt Nam. Xây dựng React Native, native module và tối ưu hiệu năng cho các đội phát hành sản phẩm.",
+      "ogDescription": "Xây dựng React Native, native module và tối ưu hiệu năng cho các đội phát hành sản phẩm."
+    },
+    "nav": {
+      "mainNav": "Điều hướng chính",
+      "skip": "Tới nội dung",
+      "services": "Dịch vụ",
+      "approach": "Cách làm việc",
+      "work": "Công việc",
+      "email": "Email Tiến",
+      "menu": "Menu",
+      "prefs": "Giao diện và ngôn ngữ",
+      "theme": "Đổi giao diện sáng tối",
+      "lang": "Ngôn ngữ",
+      "pokemon": "Pokémon"
+    },
+    "hero": {
+      "kicker": "Đang nhận dự án theo hợp đồng",
+      "title": "Lập trình viên React Native nhận dự án",
+      "lead": "Tám năm làm ứng dụng iOS và Android vẫn mượt ở 10.000 đơn mỗi ngày. Tôi vào đội của bạn, nhận phần khó nhất và để lại mã nguồn đội bạn tiếp tục được.",
+      "work": "Xem công việc",
+      "approach": "Xem cách tôi làm",
+      "facts": [
+        {
+          "label": "Đang chạy thực tế",
+          "value": "8 năm"
+        },
+        {
+          "label": "Ứng dụng đã phát hành",
+          "value": "8"
+        },
+        {
+          "label": "Đội đã kiến trúc",
+          "value": "3"
+        }
+      ],
+      "location": "Huế, Việt Nam",
+      "tz": "GMT+7",
+      "lastShipped": "Gần nhất: Dian Xiao Er, 19 chi nhánh"
+    },
+    "services": {
+      "heading": "Dịch vụ cho các đội React Native",
+      "lead": "Năm mục này là phần lớn công việc. Việc của bạn khác thì có lẽ là không.",
+      "cta": "Xem những gì đã làm",
+      "diagramAlt": "Một ứng dụng ở trung tâm React Native, TypeScript, Swift, Kotlin, Firebase và App Store.",
+      "center": "Ứng dụng của bạn",
+      "items": [
+        {
+          "name": "Ứng dụng React Native",
+          "line": "Xây mới và cứu dự án, có kiểu dữ liệu từ đầu đến cuối.",
+          "value": "8 năm"
+        },
+        {
+          "name": "Native module",
+          "line": "Swift và Kotlin cho Bluetooth, NFC và camera.",
+          "value": "iOS · Android"
+        },
+        {
+          "name": "Hiệu năng",
+          "line": "Khởi động, render danh sách, bộ nhớ.",
+          "value": "−35% khởi động"
+        },
+        {
+          "name": "Dẫn dắt đội",
+          "line": "Chia tính năng cho các nhóm.",
+          "value": "3 đội"
+        },
+        {
+          "name": "Ứng dụng Flutter",
+          "line": "Bất động sản và du lịch, phát hành cả hai store.",
+          "value": "2 ứng dụng"
+        }
+      ]
+    },
+    "approach": {
+      "label": "Cách tôi làm việc",
+      "aria": "Cách tôi làm việc",
+      "statement": "Trạng thái chỉ nằm ở <strong>một</strong> nơi, mã native đứng sau một bức tường nhỏ, và kiểm thử phủ những phần có thể khiến bạn thức trắng đêm."
+    },
+    "work": {
+      "heading": "Năm app và một game",
+      "lead": "Việc cho khách hàng, từ chuỗi 19 chi nhánh đến cửa Bluetooth.",
+      "filename": "DoorKey.swift",
+      "chip": "Cửa thông minh",
+      "items": [
+        {
+          "name": "Dian Xiao Er",
+          "line": "Đặt món cho chuỗi 19 chi nhánh: QR và thanh toán.",
+          "result": "−60% thời gian đặt"
+        },
+        {
+          "name": "Tago",
+          "line": "Video Twilio, cuộc gọi nền và thanh toán trong app.",
+          "result": "5.000 lượt tải"
+        },
+        {
+          "name": "Smart Door",
+          "line": "Mở cửa bằng BLE cho chung cư, với chìa khóa có hạn.",
+          "result": "1.000 người dùng"
+        },
+        {
+          "name": "Confidential IoT",
+          "line": "NFC, mã PIN và truy cập từ xa cho 10 tòa nhà.",
+          "result": "10 lập trình viên"
+        },
+        {
+          "name": "Homing",
+          "line": "Ứng dụng bất động sản bằng Flutter: tin đăng, tìm kiếm và giao dịch.",
+          "result": "Đội 2 người"
+        }
+      ],
+      "game": {
+        "name": "Pokémon TeamFight",
+        "line": "Dự án cá nhân: chọn sáu, rồi đấu.",
+        "cta": "Chơi"
+      }
+    },
+    "closing": {
+      "heading": "Đưa tôi phần việc cứ mãi trượt",
+      "lead": "Màn hình giật, module không ai muốn chạm, bản phát hành cứ trượt mãi. Tôi đã gặp gần hết.",
+      "cta": "Email Tiến",
+      "lede": "Lập trình viên React Native tại Huế, Việt Nam. Làm việc với các đội từ Sydney đến London.",
+      "thisPage": "Trang này",
+      "elsewhere": "Nơi khác",
+      "linkedin": "LinkedIn",
+      "email": "Email",
+      "address": "243 Bà Triệu, Huế",
+      "legal": "© 2026 Trương Văn Tiến",
+      "built": "Xây bằng Next.js",
+      "pokemon": "Trò chơi Pokémon"
+    }
   }
 }

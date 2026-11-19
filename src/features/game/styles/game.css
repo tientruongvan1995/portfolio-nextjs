@@ -1,0 +1,447 @@
+/* ==========================================================================
+   TeamFight — the game's own small design system.
+
+   The game lives inside the portfolio, so it borrows the same warmth: a blush
+   canvas, aubergine ink and one Poké-red accent. Every colour below is a token
+   that flips with the site theme (<html class="dark">), so the game follows the
+   same light/dark switch as the rest of the site.
+   ========================================================================== */
+
+.game {
+  --g-bg: #f4e6dd;
+  --g-panel: #fff9f5;
+  --g-panel-2: #edd8cb;
+  --g-ink: #2b1522;
+  --g-ink-2: #6f4d5b;
+  --g-line: #dcc0b0;
+  --g-accent: #b2332d;
+  --g-accent-ink: #fdf6f1;
+  --g-pine: #2b6157;
+  --g-radius: 22px;
+  --g-radius-sm: 14px;
+  --g-shadow: 0 24px 54px -36px rgba(43, 21, 34, 0.65);
+
+  color-scheme: light;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--g-bg);
+  color: var(--g-ink);
+  font-family: var(--font-rethink, 'Segoe UI'), system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.dark .game {
+  --g-bg: #1c0e17;
+  --g-panel: #2a1521;
+  --g-panel-2: #371d2b;
+  --g-ink: #f6e5db;
+  --g-ink-2: #c9a8a0;
+  --g-line: #45273a;
+  --g-accent: #e0675c;
+  --g-accent-ink: #1c0e17;
+  --g-pine: #7fc3b0;
+  --g-shadow: 0 24px 54px -30px rgba(0, 0, 0, 0.8);
+
+  color-scheme: dark;
+}
+
+/* --- reset inside the shell ---------------------------------------------- */
+
+.game,
+.game *,
+.game *::before,
+.game *::after {
+  box-sizing: border-box;
+}
+
+.game h1,
+.game h2,
+.game h3,
+.game h4,
+.game h5,
+.game h6 {
+  margin: 0;
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.game p,
+.game figure {
+  margin: 0;
+}
+
+.game ul,
+.game ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.game img,
+.game svg {
+  display: block;
+  max-width: 100%;
+}
+
+.game a:focus-visible,
+.game button:focus-visible {
+  outline: 2px solid var(--g-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.game button {
+  font: inherit;
+}
+
+/* --- layout -------------------------------------------------------------- */
+
+.g-wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 32px;
+}
+
+.g-main {
+  flex: 1 0 auto;
+  padding-block: 36px 52px;
+}
+
+.g-loading {
+  display: grid;
+  place-items: center;
+  min-height: 50vh;
+}
+
+/* --- top bar ------------------------------------------------------------- */
+
+.g-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--g-line);
+  background: var(--g-bg);
+}
+
+.g-bar__in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 64px;
+}
+
+.g-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--g-ink);
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.g-brand__mark {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+
+.g-brand__tag {
+  padding-left: 10px;
+  border-left: 1px solid var(--g-line);
+  color: var(--g-ink-2);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* --- footer -------------------------------------------------------------- */
+
+.g-foot {
+  flex: none;
+  border-top: 1px solid var(--g-line);
+}
+
+.g-foot__in {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 24px;
+  padding-block: 18px;
+  color: var(--g-ink-2);
+  font-size: 12px;
+}
+
+/* --- type ---------------------------------------------------------------- */
+
+.g-eyebrow {
+  color: var(--g-accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.g-title {
+  font-size: clamp(40px, 5.4vw, 68px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.g-title--sm {
+  font-size: clamp(32px, 3.6vw, 46px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.g-h2 {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.g-lead {
+  max-width: 48ch;
+  color: var(--g-ink-2);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.g-label {
+  color: var(--g-ink-2);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.g-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- brand mark (inline pokéball) ---------------------------------------- */
+
+.g-mark {
+  color: var(--g-ink);
+}
+
+.g-mark__top {
+  fill: var(--g-accent);
+}
+
+.g-mark__fill {
+  fill: var(--g-bg);
+}
+
+/* --- buttons ------------------------------------------------------------- */
+
+.g-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: var(--g-radius-sm);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.g-btn--primary {
+  background: var(--g-accent);
+  color: var(--g-accent-ink);
+}
+
+.g-btn--primary:hover {
+  background: color-mix(in oklab, var(--g-accent) 86%, #000);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px -16px var(--g-accent);
+}
+
+.g-btn--secondary {
+  background: var(--g-ink);
+  color: var(--g-bg);
+}
+
+.g-btn--secondary:hover {
+  background: color-mix(in oklab, var(--g-ink) 86%, var(--g-bg));
+  transform: translateY(-1px);
+}
+
+.g-btn--ghost {
+  border-color: var(--g-line);
+  background: transparent;
+  color: var(--g-ink);
+}
+
+.g-btn--ghost:hover {
+  border-color: var(--g-ink-2);
+  background: var(--g-panel-2);
+}
+
+.g-btn:disabled,
+.g-btn[aria-disabled='true'] {
+  border-color: var(--g-line);
+  background: var(--g-panel-2);
+  color: var(--g-ink-2);
+  cursor: not-allowed;
+  opacity: 1;
+  transform: none;
+  box-shadow: none;
+}
+
+.g-btn:focus-visible {
+  outline: 2px solid var(--g-accent);
+  outline-offset: 2px;
+}
+
+/* --- cards --------------------------------------------------------------- */
+
+.g-card {
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius);
+  background: var(--g-panel);
+  box-shadow: var(--g-shadow);
+}
+
+/* --- chips --------------------------------------------------------------- */
+
+.g-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  background: var(--g-panel-2);
+  color: var(--g-ink-2);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.g-chip--good {
+  border-color: color-mix(in oklab, var(--g-pine) 38%, var(--g-line));
+  background: color-mix(in oklab, var(--g-pine) 12%, var(--g-panel));
+  color: var(--g-pine);
+}
+
+.g-chip--bad {
+  border-color: color-mix(in oklab, var(--g-accent) 38%, var(--g-line));
+  background: color-mix(in oklab, var(--g-accent) 10%, var(--g-panel));
+  color: var(--g-accent);
+}
+
+/* --- fields -------------------------------------------------------------- */
+
+.g-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.g-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 18px;
+  border: 1px solid var(--g-line);
+  border-radius: var(--g-radius-sm);
+  background: var(--g-bg);
+  color: var(--g-ink);
+  font: inherit;
+  font-size: 15px;
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.g-input::placeholder {
+  color: color-mix(in oklab, var(--g-ink-2) 72%, transparent);
+}
+
+.g-input:focus {
+  border-color: var(--g-accent);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--g-accent) 18%, transparent);
+}
+
+.g-search {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.g-search__field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.g-search__icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  width: 16px;
+  height: 16px;
+  color: var(--g-ink-2);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.g-input--search {
+  padding-left: 42px;
+}
+
+.g-search__btn {
+  flex: none;
+  min-height: 48px;
+}
+
+/* --- small screens ------------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .g-wrap {
+    padding-inline: 20px;
+  }
+
+  .g-main {
+    padding-block: 28px 48px;
+  }
+
+  .g-bar__in {
+    height: 58px;
+  }
+
+  .g-brand__tag {
+    display: none;
+  }
+
+  .g-lead {
+    font-size: 16px;
+  }
+}

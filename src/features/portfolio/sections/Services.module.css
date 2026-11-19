@@ -1,0 +1,39 @@
+/* The services diagram sits in a full-width band on the second screen; the phone needs the
+   hub's tile names inside the tiles, because the tier-c drawing drops them below. */
+
+.band {
+  --p-h: 560px;
+  --ground-bg: var(--surface);
+  height: 560px;
+}
+
+@media (max-width: 1023px) {
+  .band {
+    --p-h: 420px;
+    height: 420px;
+  }
+}
+
+@media (max-width: 639px) {
+  .band :global(.dg[data-tier='c'] .dg-node--tile:has(> .dg-cap)) {
+    width: auto;
+    height: auto;
+    min-width: 62px;
+    min-height: 52px;
+    padding: 6px 4px;
+    gap: 4px;
+    flex-direction: column;
+    border-radius: 12px;
+  }
+
+  .band :global(.dg[data-tier='c'] .dg-node--tile > .dg-cap) {
+    position: static;
+    translate: none;
+    max-width: 78px;
+    font-size: 11px;
+    line-height: 13px;
+    white-space: normal;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+}

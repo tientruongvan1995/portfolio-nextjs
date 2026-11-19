@@ -1,31 +1,44 @@
-.pokemonFightItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 325px;
-  padding: 10px 10px;
-  border-radius: 20px;
-  background-color: var(--softWhite);
-}
-
-.pokemonFightItem__nameSpriteWrapper {
-  display: flex;
+.item {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
+  padding-block: 7px;
 }
 
-.pokemonFightItem__name {
+.sprite {
+  width: 42px;
+  height: 42px;
+  image-rendering: pixelated;
+}
+
+.body {
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 600;
+  text-overflow: ellipsis;
   text-transform: capitalize;
+  white-space: nowrap;
 }
 
-.pokemonFightItem__expTypesWrapper {
+.types {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 3px;
 }
 
-.pokemonFightItem__types {
-  display: flex;
-  gap: 5px;
+@media (max-width: 520px) {
+  .item {
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .types {
+    display: none;
+  }
 }

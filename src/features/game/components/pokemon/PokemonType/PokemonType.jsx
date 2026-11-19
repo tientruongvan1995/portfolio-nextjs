@@ -1,9 +1,7 @@
-import BaseSmallType from "@/features/game/components/primitive/BaseSmallType";
-
-import styles from "./PokemonType.module.css";
+import BaseSmallType from '@/features/game/components/primitive/BaseSmallType';
 
 const PokemonType = ({ type }) => {
-  return <BaseSmallType type={type} text={type} className={styles.pokemonType} />;
+  return <BaseSmallType type={type} text={type} />;
 };
 
 export default PokemonType;

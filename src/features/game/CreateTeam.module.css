@@ -1,131 +1,214 @@
-.background {
-  height: inherit;
-  background-color: var(--orange);
-}
-
-.container {
-  position: relative;
-  max-width: 1440px;
-  height: inherit;
-  margin: 0 auto;
-  padding: 25px 20px;
-}
-
-.main {
-  height: inherit;
+.head {
   display: flex;
-}
-
-.whiteLabel {
-  color: var(--softWhite);
-}
-
-.headerWrapper {
-  display: flex;
+  align-items: flex-end;
   justify-content: space-between;
-  align-items: center;
-}
-
-.messageDescription {
-  padding: 10px;
-  background-color: var(--softBlack);
-  color: var(--softWhite);
-  border-radius: 10px;
-}
-
-.leftBox {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--lightGreen);
-  margin-top: -25px;
-  margin-bottom: -25px;
-  height: calc(100% + 50px);
-  padding: 25px 30px;
-  min-width: 470px;
-}
-
-.pokemonTeamList {
-  padding-right: 10px;
-  margin-right: -10px;
-  overflow-y: auto;
-  flex-grow: 1;
-}
-
-/* width */
-.pokemonTeamList::-webkit-scrollbar {
-  width: 10px;
-  margin-left: 10px;
-}
-
-/* Track */
-.pokemonTeamList::-webkit-scrollbar-track {
-  background-color: var(--iceBlue);
-  border-radius: 5px;
-}
-
-/* Handle */
-.pokemonTeamList::-webkit-scrollbar-thumb {
-  background-color: var(--softBlack);
-  border-radius: 5px;
-}
-
-.buttonsWrapper {
-  display: flex;
-  justify-content: flex-end;
-  gap: 20px;
-}
-
-.rightBox {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding: 0 50px;
-}
-
-.rightBox h1 {
-  color: var(--softWhite);
-  text-align: center;
-}
-
-.pokemonSearchList {
-  display: flex;
+  gap: 24px;
   flex-wrap: wrap;
-  justify-content: space-between;
+  margin-bottom: 30px;
 }
 
-.pokemonSearchList button {
-  margin-top: 10px;
-}
-
-.pokemonDetailsWrapper {
-  margin-top: 20px;
+.headText {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  flex-grow: 1;
+  gap: 12px;
 }
 
-.pokemonNotFound {
-  height: 220px;
+.headActions {
+  display: flex;
+  gap: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* --- saved team --------------------------------------------------------- */
+
+.roster {
+  position: sticky;
+  top: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+}
+
+.rosterHead {
   display: flex;
   align-items: center;
-  color: var(--softWhite);
+  justify-content: space-between;
+  gap: 12px;
 }
 
-.pokemonNotFound p {
-  text-align: center;
+.count {
+  padding: 3px 10px;
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  color: var(--g-ink-2);
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.gottaCatchEmAllWrapper {
-  margin-top: 20px;
+.teamList {
   display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.teamList > li + li {
+  border-top: 1px solid color-mix(in oklab, var(--g-line) 70%, transparent);
+}
+
+.emptySlot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 4px;
+  color: var(--g-ink-2);
+  font-size: 13px;
+}
+
+.emptyIndex {
+  color: var(--g-ink-2);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.note {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: 30;
+  padding: 10px 16px;
+  border: 1px solid;
+  border-radius: 999px;
+  background: var(--g-panel);
+  box-shadow: 0 18px 40px -22px rgba(43, 21, 34, 0.75);
+  font-size: 13px;
+  font-weight: 500;
+  transform: translateX(-50%);
+  animation: note-in 0.18s ease-out;
+}
+
+@keyframes note-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.noteOk {
+  border-color: color-mix(in oklab, var(--g-pine) 35%, var(--g-line));
+  background: color-mix(in oklab, var(--g-pine) 10%, transparent);
+  color: var(--g-pine);
+}
+
+.noteBad {
+  border-color: color-mix(in oklab, var(--g-accent) 35%, var(--g-line));
+  background: color-mix(in oklab, var(--g-accent) 8%, transparent);
+  color: var(--g-accent);
+}
+
+/* --- pokédex search ----------------------------------------------------- */
+
+.find {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px;
+}
+
+.findHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  gap: 20px;
+  min-height: 300px;
 }
 
-.gottaCatchEmAllWrapper p {
-  color: var(--softWhite);
+.notFound {
+  padding: 36px 16px;
+  color: var(--g-ink-2);
+  font-size: 14px;
   text-align: center;
+}
+
+.notFoundTitle {
+  margin-bottom: 5px;
+  color: var(--g-ink);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.notFound em {
+  color: var(--g-ink);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.random {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 18px;
+  border-top: 1px solid var(--g-line);
+}
+
+.randomNote {
+  max-width: 34ch;
+  color: var(--g-ink-2);
+  font-size: 13px;
+}
+
+.randomNote strong {
+  color: var(--g-ink);
+  font-weight: 600;
+}
+
+@media (max-width: 1020px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .find {
+    order: 1;
+  }
+
+  .roster {
+    position: static;
+    order: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .head {
+    margin-bottom: 24px;
+  }
+
+  .headActions {
+    width: 100%;
+  }
+
+  .headActions > * {
+    flex: 1;
+  }
 }

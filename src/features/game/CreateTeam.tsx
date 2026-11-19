@@ -1,29 +1,27 @@
 'use client';
 
-import NoDesktopLayout from '@/features/game/components/layout/NoDesktopLayout';
+import CopyrightFooter from '@/features/game/components/layout/CopyrightFooter';
+import GameBar from '@/features/game/components/layout/GameBar/GameBar';
 import BaseButton from '@/features/game/components/primitive/BaseButton';
 import BaseInput from '@/features/game/components/primitive/BaseInput/BaseInput';
-import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
+import { isValidObject } from '@/utils/object';
 import { useRef, useState } from 'react';
+import { fetchPokemonAPI, POKEMON_COUNT } from './api/pokemon';
 import PokeballLoadingSpinner from './components/PokeballLoadingSpinner';
 import PokemonDetails from './components/pokemon/PokemonDetails';
 import PokemonTeamItem from './components/pokemon/PokemonTeamItem/PokemonTeamItem';
 import { usePlayerContext } from './context/player';
-
-import { isValidObject } from '@/utils/object';
-import { useMediaQuery } from '@/utils/use-hooks';
-import styles from './CreateTeam.module.css';
-import { fetchPokemonAPI, POKEMON_COUNT } from './api/pokemon';
 import { usePokemonTeam } from './hooks/team';
 import { Pokemon } from './model/pokemon';
+
+import styles from './CreateTeam.module.css';
+
+const TEAM_SIZE = 6;
 
 const getRandomPokemonIndex = () => Math.floor(Math.random() * POKEMON_COUNT) + 1;
 
 const CreateTeamPage = ({ firstPokemonDetails }: { firstPokemonDetails: Pokemon }) => {
   const [playerInfo, setPlayerInfo] = usePlayerContext();
-  const [isDesktop] = useMediaQuery();
   const [
     pokemonTeam,
     message,
@@ -33,11 +31,13 @@ const CreateTeamPage = ({ firstPokemonDetails }: { firstPokemonDetails: Pokemon 
     resetTeam,
     saveTeam,
   ] = usePokemonTeam([playerInfo, setPlayerInfo]);
+
   const [pokemonDetails, setPokemonDetails] = useState(firstPokemonDetails);
   const [pokemonNotFound, setPokemonNotFound] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const searchPokemonRef = useRef<HTMLInputElement | null>(null);
+  const teamIsFull = pokemonTeam.team.length >= TEAM_SIZE;
 
   const setRandomPokemonInTeam = async (tryTime = 3) => {
     const randomIndex = getRandomPokemonIndex();
@@ -53,11 +53,15 @@ const CreateTeamPage = ({ firstPokemonDetails }: { firstPokemonDetails: Pokemon 
   };
 
   const getPokemonFromSearch = async () => {
+    const query = searchPokemonRef?.current?.value.trim();
+
+    if (!query) {
+      return;
+    }
+
     setIsLoading(true);
 
-    const index = searchPokemonRef?.current?.value || 1;
-
-    const pokemon = await fetchPokemonAPI(index);
+    const pokemon = await fetchPokemonAPI(query);
 
     if (!isValidObject(pokemon)) {
       setPokemonNotFound(true);
@@ -72,111 +76,126 @@ const CreateTeamPage = ({ firstPokemonDetails }: { firstPokemonDetails: Pokemon 
 
   return (
     <>
-      <Head>
-        <title>Create Team - Pokémon TeamFight</title>
-        <meta name="description" content="Compose your Pokémon team!" />
-        <link rel="icon" href="/favicon.png" type="image/png" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head>
+      <GameBar back />
 
-      {isDesktop ? (
-        <div className={styles.background}>
-          <div className={styles.container}>
-            <main className={styles.main}>
-              <div className={styles.leftBox}>
-                <div className={styles.headerWrapper}>
-                  <Link href="/pokemon">
-                    <Image src="/pokemon/icons/go-back.svg" alt="" width="128" height="42" />
-                  </Link>
-                  {message && (
-                    <div className={styles.messageDescription}>
-                      <p>{message.description}</p>
-                    </div>
-                  )}
-                </div>
-                <BaseInput
-                  label="Team name"
-                  name="team-name"
-                  value={pokemonTeam.teamName}
-                  onChange={(e) => setPokemonTeamName(e.target.value)}
-                  classNameLabel="mt-50"
-                />
-                <p className="semibold mt-25 mb-5">Your team</p>
-                <div className={styles.pokemonTeamList}>
-                  {pokemonTeam.team.map((pokemon) => (
-                    <PokemonTeamItem
-                      key={`${pokemon.uuid}_pokemonteam`}
-                      pokemon={pokemon}
-                      className="mb-10"
-                      onRemove={removePokemonInTeam}
-                    />
-                  ))}
-                </div>
-                <div className={`${styles.buttonsWrapper} mt-50`}>
-                  <BaseButton buttonType="tertiary" onClick={resetTeam}>
-                    RESET
-                  </BaseButton>
-                  <BaseButton buttonType="secondary" onClick={saveTeam}>
-                    SAVE
-                  </BaseButton>
-                </div>
+      <main className="g-main">
+        <div className="g-wrap">
+          <header className={styles.head}>
+            <div className={styles.headText}>
+              <p className="g-eyebrow">Team builder</p>
+              <h1 className="g-title g-title--sm">Compose your team.</h1>
+              <p className="g-lead">
+                Search the Pokédex by name or number, add six Pokémon, then save. Teams live in this
+                browser.
+              </p>
+            </div>
+            <div className={styles.headActions}>
+              <BaseButton buttonType="tertiary" onClick={resetTeam}>
+                Reset
+              </BaseButton>
+              <BaseButton onClick={saveTeam}>Save team</BaseButton>
+            </div>
+          </header>
+
+          <div className={styles.grid}>
+            <section className={`g-card ${styles.roster}`} aria-label="Your team">
+              <div className={styles.rosterHead}>
+                <h2 className="g-h2">Your team</h2>
+                <span className={`${styles.count} g-num`}>
+                  {pokemonTeam.team.length} / {TEAM_SIZE}
+                </span>
               </div>
-              <div className={styles.rightBox}>
-                <h1 className="medium">COMPOSE YOUR TEAM</h1>
-                <BaseInput
-                  classNameLabel={`${styles.whiteLabel} mt-10`}
-                  inputRef={searchPokemonRef}
-                  label="Pokémon"
-                  inputType="search"
-                  name="search-pokemon"
-                  onClick={getPokemonFromSearch}
-                />
-                <div className={styles.pokemonDetailsWrapper}>
-                  {isLoading && <PokeballLoadingSpinner />}
-                  {!isLoading && !pokemonNotFound && pokemonDetails && (
-                    <PokemonDetails pokemon={pokemonDetails} onAdd={setPokemonInTeam} />
-                  )}
-                  {!isLoading && pokemonNotFound && (
-                    <div className={styles.pokemonNotFound}>
-                      <p>
-                        Pokemon not found!
-                        <br />
-                        Try again.
-                      </p>
-                    </div>
-                  )}
-                  <div className={styles.gottaCatchEmAllWrapper}>
-                    {pokemonDetails && <p>Or..</p>}
-                    <BaseButton buttonType="special" onClick={setRandomPokemonInTeam} />
-                    <div className="horizontalBar small yellow"></div>
-                    <p className="medium">
-                      Add a random pokémon to your team.
-                      <br />
-                      May luck be with you!
+
+              <BaseInput
+                label="Team name"
+                name="team-name"
+                placeholder="e.g. Hue City"
+                value={pokemonTeam.teamName}
+                onChange={(event) => setPokemonTeamName(event.target.value)}
+              />
+
+              <ul className={styles.teamList}>
+                {pokemonTeam.team.map((pokemon) => (
+                  <li key={`${pokemon.uuid}_pokemonteam`}>
+                    <PokemonTeamItem pokemon={pokemon} onRemove={removePokemonInTeam} />
+                  </li>
+                ))}
+                {Array.from({ length: TEAM_SIZE - pokemonTeam.team.length }, (_, index) => (
+                  <li key={`empty-slot-${index}`} className={styles.emptySlot}>
+                    <span className={`${styles.emptyIndex} g-num`}>
+                      {String(pokemonTeam.team.length + index + 1).padStart(2, '0')}
+                    </span>
+                    <span>Empty slot</span>
+                  </li>
+                ))}
+              </ul>
+
+              {message && (
+                <p
+                  className={`${styles.note} ${message.success ? styles.noteOk : styles.noteBad}`}
+                  role="status"
+                >
+                  {message.description}
+                </p>
+              )}
+            </section>
+
+            <section className={`g-card ${styles.find}`} aria-label="Find a Pokémon">
+              <div className={styles.findHead}>
+                <h2 className="g-h2">Find a Pokémon</h2>
+                <span className="g-label">PokéAPI</span>
+              </div>
+
+              <BaseInput
+                label="Name or number"
+                inputType="search"
+                name="search-pokemon"
+                placeholder="pikachu, 25…"
+                inputRef={searchPokemonRef}
+                onClick={getPokemonFromSearch}
+              />
+
+              <div className={styles.result}>
+                {isLoading ? (
+                  <PokeballLoadingSpinner label="Searching" />
+                ) : pokemonNotFound ? (
+                  <div className={styles.notFound}>
+                    <p className={styles.notFoundTitle}>No Pokémon found.</p>
+                    <p>
+                      Try a name like <em>pikachu</em> or a number from 1 to{' '}
+                      {POKEMON_COUNT.toLocaleString('en-US')}.
                     </p>
                   </div>
-                </div>
+                ) : pokemonDetails ? (
+                  <PokemonDetails
+                    pokemon={pokemonDetails}
+                    onAdd={setPokemonInTeam}
+                    disabled={teamIsFull}
+                  />
+                ) : null}
               </div>
-            </main>
+
+              <div className={styles.random}>
+                <p className={styles.randomNote}>
+                  <strong>No idea?</strong> Pull one at random from all{' '}
+                  {POKEMON_COUNT.toLocaleString('en-US')}.
+                </p>
+                <BaseButton
+                  buttonType="secondary"
+                  onClick={() => setRandomPokemonInTeam()}
+                  disabled={teamIsFull}
+                >
+                  Add a random Pokémon
+                </BaseButton>
+              </div>
+            </section>
           </div>
         </div>
-      ) : (
-        <NoDesktopLayout />
-      )}
+      </main>
+
+      <CopyrightFooter />
     </>
   );
 };
-
-export async function getStaticProps() {
-  const firstPokemonDetails = await fetchPokemonAPI('ditto');
-
-  return {
-    props: {
-      firstPokemonDetails,
-    },
-  };
-}
 
 export default CreateTeamPage;

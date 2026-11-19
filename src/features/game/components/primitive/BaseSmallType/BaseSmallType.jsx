@@ -1,10 +1,10 @@
-import styles from "./BaseSmallType.module.css";
+import styles from './BaseSmallType.module.css';
 
-const BaseSmallType = ({ type = "normal", text = "", className = "", ...rest }) => {
+const BaseSmallType = ({ type = 'normal', text = '', className = '', ...rest }) => {
   return (
-    <div {...rest} className={`${styles.baseSmallType} ${styles[type]} ${className}`}>
+    <span {...rest} data-type={type} className={`${styles.type} ${className}`.trim()}>
       <small>{text}</small>
-    </div>
+    </span>
   );
 };
 

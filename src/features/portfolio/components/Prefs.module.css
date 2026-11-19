@@ -1,0 +1,75 @@
+/* The theme and language controls that sit in the nav's actions: two quiet, 32px
+   controls on the desktop bar, and a row at the foot of the phone sheet. */
+
+.prefs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-btn);
+  background: transparent;
+  color: var(--ink);
+  font: 500 var(--t-small) / 1 var(--font-text);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    background 140ms var(--ease),
+    border-color 140ms var(--ease),
+    color 140ms var(--ease);
+}
+
+.control:hover {
+  background: color-mix(in oklab, var(--ink) 8%, var(--bg));
+  border-color: var(--line-strong);
+}
+
+.control svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* the moon in the light theme, the sun in the dark one (html.dark is set before paint) */
+.sun {
+  display: none;
+}
+
+:global(html.dark) .sun {
+  display: block;
+}
+
+:global(html.dark) .moon {
+  display: none;
+}
+
+.isOn {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+.isOn:hover {
+  background: color-mix(in oklab, var(--ink) 88%, var(--bg));
+  border-color: var(--ink);
+}
+
+@media (max-width: 1023px) {
+  .prefs {
+    justify-content: center;
+    padding-bottom: var(--s-2);
+  }
+}

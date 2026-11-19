@@ -1,0 +1,75 @@
+/*
+  The deal's tokens, printed by `start.mjs css` and kept after the kit's sheets (layout.css resets
+  --ly-scale). Palette: blush-aubergine; type: rethink; radius: soft, set on <html> in the root layout.
+  --p-muted is a step darker than the deal prints: 7.3:1 on the blush ground, the body-text floor.
+*/
+:root {
+  --p-bg: #edccbe;
+  --p-surface: #e8c2b2;
+  --p-ink: #351a2b;
+  --p-muted: #523340;
+  --p-accent: #351a2b;
+  --p-accent-ink: #edccbe;
+  --p-action: #351a2b;
+  --p-action-ink: #edccbe;
+  --p-inv-bg: #1c0e17;
+  --p-inv-surface: #2a1521;
+  --p-inv-ink: #edccbe;
+  --p-inv-muted: #b2938f;
+  --p-inv-accent: #edccbe;
+  --p-inv-accent-ink: #351a2b;
+  --p-inv-action: #edccbe;
+  --p-inv-action-ink: #351a2b;
+  --font-display: 'Rethink Sans', system-ui, sans-serif;
+  --font-text: 'Rethink Sans', system-ui, sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.025em;
+  --display-tracking-xl: -0.035em;
+}
+
+/* The old portfolio theme (globals.css) sets --surface, --muted and --accent on
+   :root:not(.dark), which outranks the kit's :root. These put the deal's palette back:
+   same specificity, later in the sheet. */
+:root:not(.dark),
+:root {
+  --bg: var(--p-bg);
+  --surface: var(--p-surface);
+  --ink: var(--p-ink);
+  --muted: var(--p-muted);
+  --accent: var(--p-accent);
+  --accent-ink: var(--p-accent-ink);
+  --card: var(--p-surface);
+  --action: var(--p-action);
+  --action-ink: var(--p-action-ink);
+  --line: color-mix(in oklab, var(--ink) 11%, transparent);
+  --line-strong: color-mix(in oklab, var(--ink) 20%, transparent);
+  --fx-bg: var(--bg);
+  --fx-surface: var(--surface);
+  --fx-ink: var(--ink);
+  --fx-muted: var(--muted);
+  --fx-accent: var(--accent);
+  --fx-accent-ink: var(--accent-ink);
+}
+
+/* The theme switch (ThemeProvider puts .dark on <html>, the boot script puts it there before
+   paint): the same palette read from its inverse set, so every section, card, diagram and
+   code window keeps its hierarchy on a dark ground. */
+html.dark {
+  --bg: var(--p-inv-bg);
+  --surface: var(--p-inv-surface);
+  --ink: var(--p-inv-ink);
+  --muted: var(--p-inv-muted);
+  --accent: var(--p-inv-accent);
+  --accent-ink: var(--p-inv-accent-ink);
+  --card: var(--p-inv-surface);
+  --action: var(--p-inv-action);
+  --action-ink: var(--p-inv-action-ink);
+  --line: color-mix(in oklab, var(--ink) 16%, transparent);
+  --line-strong: color-mix(in oklab, var(--ink) 28%, transparent);
+  --fx-bg: var(--bg);
+  --fx-surface: var(--surface);
+  --fx-ink: var(--ink);
+  --fx-muted: var(--muted);
+  --fx-accent: var(--accent);
+  --fx-accent-ink: var(--accent-ink);
+}

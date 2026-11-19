@@ -1,49 +1,85 @@
-.pokemonTeamItem {
-  position: relative;
-  display: flex;
+.item {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 28px;
   align-items: center;
-  background-color: var(--softWhite);
-  border-radius: 20px;
-  margin-top: 5px;
-  margin-left: 5px;
-}
-.pokemonTeamItem__stats {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex-grow: 1;
-}
-.pokemonTeamItem__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.pokemonTeamItem__name {
-  font-weight: 600;
-  text-transform: capitalize;
-}
-.pokemonTeamItem__types,
-.pokemonTeamItem__abilities {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 5px;
-}
-.pokemonTeamItem__abilities {
-  width: 200px;
-}
-.pokemonTeamItem__abilities .pokemonTeamItem__abilities_slot {
-  width: 95px;
+  gap: 12px;
+  padding: 8px 2px;
 }
 
-.removeFromTeam {
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  background-color: transparent;
-  cursor: pointer;
-  border: 0;
+.sprite {
+  width: 52px;
+  height: 52px;
+  image-rendering: pixelated;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  text-transform: capitalize;
+}
+
+.types {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.abilities {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--g-ink-2);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
   padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: none;
+  color: var(--g-ink-2);
+  cursor: pointer;
+  transition:
+    color 0.16s ease,
+    border-color 0.16s ease,
+    background-color 0.16s ease;
+}
+
+.remove:hover {
+  border-color: var(--g-line);
+  background: var(--g-panel-2);
+  color: var(--g-accent);
+}
+
+.remove:focus-visible {
+  outline: 2px solid var(--g-accent);
+  outline-offset: 2px;
 }

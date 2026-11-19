@@ -1,6 +1,7 @@
 import { routing } from '@/i18n/routing';
+import { LocaleLang } from '@/components/LocaleLang';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
@@ -22,5 +23,13 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
     notFound();
   }
 
-  return <NextIntlClientProvider locale={locale}>{children}</NextIntlClientProvider>;
+  // Lets every server component below read its copy with getTranslations() alone.
+  setRequestLocale(locale);
+
+  return (
+    <NextIntlClientProvider locale={locale}>
+      <LocaleLang locale={locale} />
+      {children}
+    </NextIntlClientProvider>
+  );
 }

@@ -1,67 +1,69 @@
+import BaseButton from '@/features/game/components/primitive/BaseButton';
 import BaseExperienceBar from '@/features/game/components/primitive/BaseExperienceBar';
+import { Pokemon } from '@/features/game/model/pokemon';
+import { humanize } from '@/features/game/utils/format';
 import Image from 'next/image';
-
-import BaseSmallType from '@/features/game/components/primitive/BaseSmallType';
 import PokemonType from '../PokemonType';
 
 import styles from './PokemonDetails.module.css';
 
-import addToTeam from './icons/addToTeam.svg';
-import { Pokemon } from '@/features/game/model/pokemon';
-
 type Props = {
   pokemon: Pokemon;
   onAdd: (pokemon: Pokemon) => void;
+  disabled?: boolean;
 };
 
-const PokemonDetails = ({ pokemon, onAdd }: Props) => {
-  const { name, spriteNormalUrl, baseExperience, abilities, types } = pokemon || {};
-
-  if (!pokemon || !spriteNormalUrl) {
+const PokemonDetails = ({ pokemon, onAdd, disabled = false }: Props) => {
+  if (!pokemon || !pokemon.spriteNormalUrl) {
     return null;
   }
 
+  const { name, pokedexId, spriteNormalUrl, baseExperience, abilities, types } = pokemon;
+
   return (
-    <button className={styles.pokemonDetails} onClick={() => onAdd(pokemon)}>
-      <Image
-        src={spriteNormalUrl}
-        alt={`${name}'s offical artwork`}
-        width={60}
-        height={60}
-        placeholder="blur"
-        blurDataURL="./icons/placeholder-pokemon.png"
-      />
-      <div className={styles.statsAndAbilities}>
-        <div className={styles.statsWrapper}>
-          <div className={styles.statsWrapper__info}>
-            <div className={styles.statsWrapper__column}>
-              <p className={`medium ${styles.statsWrapper__name}`}>{name}</p>
-              <BaseExperienceBar baseExperience={baseExperience} />
-            </div>
-            <div className={styles.statsWrapper__column}>
-              {types?.map((elem) => (
-                <PokemonType key={`${elem.type.name}_pokemondetails`} type={elem.type.name} />
-              ))}
-            </div>
-          </div>
-          <div className={styles.statsWrapper__bottomBar}></div>
-        </div>
-        <div className={styles.abilitiesWrapper}>
-          <p className="medium">Abilities</p>
-          <div className={styles.abilities}>
-            {abilities?.map((elem) => (
-              <BaseSmallType
-                key={`${elem.ability.name}_pokemondetails`}
-                type={types[0].type.name}
-                text={elem.ability.name}
-                className={styles.abilitySlot}
-              />
+    <article className={styles.card}>
+      <div className={styles.art}>
+        <span className={`${styles.dex} g-num`}>No. {String(pokedexId).padStart(3, '0')}</span>
+        <Image
+          className={styles.artwork}
+          src={spriteNormalUrl}
+          alt={`${name} official artwork`}
+          width={240}
+          height={240}
+          loading="eager"
+        />
+      </div>
+
+      <div className={styles.info}>
+        <div className={styles.head}>
+          <h3 className={styles.name}>{name}</h3>
+          <div className={styles.types}>
+            {types?.map((item) => (
+              <PokemonType key={item.type.name} type={item.type.name} />
             ))}
           </div>
         </div>
+
+        <div className={styles.abilities}>
+          <p className="g-label">Abilities</p>
+          <p className={styles.abilityList}>
+            {abilities
+              ?.map(
+                (item) =>
+                  `${humanize(item.ability.name)}${item.is_hidden ? ' (hidden)' : ''}`,
+              )
+              .join(' · ')}
+          </p>
+        </div>
+
+        <div className={styles.foot}>
+          <BaseExperienceBar baseExperience={baseExperience} />
+          <BaseButton className={styles.add} onClick={() => onAdd(pokemon)} disabled={disabled}>
+            {disabled ? 'Team is full' : 'Add to team'}
+          </BaseButton>
+        </div>
       </div>
-      <Image className={styles.addToTeam} src={addToTeam} alt="" width="100" height="36" />
-    </button>
+    </article>
   );
 };
 

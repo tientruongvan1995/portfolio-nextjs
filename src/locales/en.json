@@ -43,5 +43,140 @@
     "copy": "© 2026. React Native Developer • Always learning, building at scale.",
     "email": "tientruongvan1995@gmail.com",
     "phone": "+84 936 952 906"
+  },
+  "landing": {
+    "meta": {
+      "title": "React Native developer for hire · Tien Truong",
+      "description": "Eight years of iOS and Android apps in Hue, Vietnam. React Native builds, native modules and performance work for teams that ship.",
+      "ogDescription": "React Native builds, native modules and performance work for teams that ship."
+    },
+    "nav": {
+      "mainNav": "Main",
+      "skip": "Skip to content",
+      "services": "Services",
+      "approach": "Approach",
+      "work": "Work",
+      "email": "Email Tien",
+      "menu": "Menu",
+      "prefs": "Theme and language",
+      "theme": "Switch between light and dark",
+      "lang": "Language",
+      "pokemon": "Pokémon"
+    },
+    "hero": {
+      "kicker": "Open to contract work",
+      "title": "React Native developer for hire",
+      "lead": "Eight years of iOS and Android apps that stay fast at 10,000 orders a day. I join your team, take the hard part, and leave code your developers can keep.",
+      "work": "See the work",
+      "approach": "See how I work",
+      "facts": [
+        {
+          "label": "In production",
+          "value": "8 years"
+        },
+        {
+          "label": "Apps shipped",
+          "value": "8"
+        },
+        {
+          "label": "Teams architected",
+          "value": "3"
+        }
+      ],
+      "location": "Hue, Vietnam",
+      "tz": "GMT+7",
+      "lastShipped": "Last shipped: Dian Xiao Er, 19 outlets"
+    },
+    "services": {
+      "heading": "Services for React Native teams",
+      "lead": "Most of the work is one of these five. If yours is not here, it is probably a no.",
+      "cta": "See what shipped",
+      "diagramAlt": "One app at the centre of React Native, TypeScript, Swift, Kotlin, Firebase and the App Store.",
+      "center": "Your app",
+      "items": [
+        {
+          "name": "React Native apps",
+          "line": "New builds and rescue work, typed end to end.",
+          "value": "8 years"
+        },
+        {
+          "name": "Native modules",
+          "line": "Swift and Kotlin for Bluetooth, NFC and the camera.",
+          "value": "iOS · Android"
+        },
+        {
+          "name": "Performance",
+          "line": "Startup time, list rendering, memory under load.",
+          "value": "−35% startup"
+        },
+        {
+          "name": "Team leadership",
+          "line": "Feature ownership split across squads.",
+          "value": "3 teams"
+        },
+        {
+          "name": "Flutter apps",
+          "line": "Property and travel apps, shipped to both stores.",
+          "value": "2 apps"
+        }
+      ]
+    },
+    "approach": {
+      "label": "How I work",
+      "aria": "How I work",
+      "statement": "State lives in <strong>one</strong> place, native code stays behind a small wall, and the tests cover the parts that would wake you up at night."
+    },
+    "work": {
+      "heading": "Five apps and a game",
+      "lead": "Client work, from a 19-outlet chain to a BLE door.",
+      "filename": "DoorKey.swift",
+      "chip": "Smart Door",
+      "items": [
+        {
+          "name": "Dian Xiao Er",
+          "line": "Ordering for a 19-outlet chain: QR, payments, kitchen tickets.",
+          "result": "−60% order time"
+        },
+        {
+          "name": "Tago",
+          "line": "Twilio video, background calls and in-app payments.",
+          "result": "5,000 downloads"
+        },
+        {
+          "name": "Smart Door",
+          "line": "BLE door access for apartment buildings, with time-limited keys.",
+          "result": "1,000 users"
+        },
+        {
+          "name": "Confidential IoT",
+          "line": "NFC, passcodes and remote access for 10 buildings.",
+          "result": "10 developers"
+        },
+        {
+          "name": "Homing",
+          "line": "A Flutter property app: listings, search and transactions.",
+          "result": "2-person team"
+        }
+      ],
+      "game": {
+        "name": "Pokémon TeamFight",
+        "line": "Side project: pick six, then fight.",
+        "cta": "Play"
+      }
+    },
+    "closing": {
+      "heading": "Bring me the part that keeps slipping",
+      "lead": "The screen that stutters, the module nobody wants to touch, the release that keeps moving. I have seen most of them.",
+      "cta": "Email Tien",
+      "lede": "React Native developer in Hue, Vietnam. Working with teams from Sydney to London.",
+      "thisPage": "This page",
+      "elsewhere": "Elsewhere",
+      "linkedin": "LinkedIn",
+      "email": "Email",
+      "address": "243 Ba Trieu, Hue",
+      "legal": "© 2026 Truong Van Tien",
+      "built": "Built with Next.js",
+      "pokemon": "Pokémon game"
+    }
   }
 }

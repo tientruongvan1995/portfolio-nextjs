@@ -1,0 +1,20 @@
+/* The few page-only rules the kit leaves to the whole page. Everything else lives with its
+   section or component: the diagram band in sections/Services.module.css, the code window in
+   sections/Work.module.css, the theme and language controls in components/Prefs.module.css. */
+
+:global(.rows__name) small {
+  display: block;
+  font-weight: 400;
+  color: var(--muted);
+  font-size: var(--t-small);
+  line-height: 1.45;
+  max-width: 44ch;
+}
+
+/* The two-screen sections at phone width: the kit's .g2m rows are 1fr of the wrap,
+   so the wrap takes the section's two screens and the row gap comes out of them. */
+@media (max-width: 639px) {
+  :global(.g2m) > :global(.wrap) {
+    height: 100%;
+  }
+}

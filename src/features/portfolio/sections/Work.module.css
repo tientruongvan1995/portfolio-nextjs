@@ -1,0 +1,40 @@
+/* The code window fills its half of the work screen, wrapped rather than cut, and keeps the
+   fragment's light surface in the light theme and a lifted ground in the dark one. */
+
+.codeGroup {
+  justify-content: center;
+}
+
+.codeSlot {
+  --fx-bg: #f7e8e0;
+  --fx-surface: #eed3c6;
+  --fx-ink: var(--ink);
+  --fx-muted: var(--muted);
+  --fx-accent: var(--ink);
+  --fx-accent-ink: var(--bg);
+  width: 100%;
+}
+
+:global(html.dark) .codeSlot {
+  --fx-bg: #2a1420;
+  --fx-surface: #361a28;
+}
+
+.codeSlot :global(.ui-code) {
+  width: 100%;
+}
+
+.codeSlot :global(.ui-code__pre) {
+  overflow: visible;
+}
+
+.codeSlot :global(.ui-code__ln) {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 639px) {
+  .codeSlot :global(.ui-code__pre) {
+    line-height: 18px;
+  }
+}

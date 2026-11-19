@@ -1,48 +1,54 @@
-.whiteColor {
-  color: var(--softWhite);
-}
-
-.teamWrapper {
+.team {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  max-width: 325px;
+  overflow: hidden;
 }
 
-.teamWrapper h3 {
-  text-align: center;
+.winner {
+  border-color: color-mix(in oklab, var(--g-pine) 45%, var(--g-line));
 }
 
-.pokemonTeamWrapper {
+.head {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px 14px;
+  border-bottom: 1px solid var(--g-line);
 }
 
-.baseExperienceWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.headText {
+  min-width: 0;
 }
 
-.baseExperienceWrapper p {
-  font-size: 25px;
-  margin-right: 10px;
-}
-
-.baseExperience__zoom {
-  zoom: 1.5;
-}
-
-.resultButton {
-  cursor: auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.resultButton p {
-  font-size: 25px;
+.name {
+  margin-top: 2px;
+  font-size: 19px;
   font-weight: 600;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.team .list {
+  padding: 4px 18px;
+}
+
+.list li + li {
+  border-top: 1px solid color-mix(in oklab, var(--g-line) 65%, transparent);
+}
+
+.foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-top: 1px solid var(--g-line);
+  background: color-mix(in oklab, var(--g-panel-2) 45%, transparent);
+}
+
+.total {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }

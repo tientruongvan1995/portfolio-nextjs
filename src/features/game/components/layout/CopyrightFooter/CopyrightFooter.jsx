@@ -1,10 +1,10 @@
-import styles from "./CopyrightFooter.module.css";
-
 const CopyrightFooter = () => {
   return (
-    <footer className={styles.footer}>
-      <p>Credits © Andrea Losavio</p>
-      <p>Copyrights belong to Pokémon Company</p>
+    <footer className="g-foot">
+      <div className="g-wrap g-foot__in">
+        <p>Credits © Andrea Losavio</p>
+        <p>Copyrights belong to Pokémon Company</p>
+      </div>
     </footer>
   );
 };

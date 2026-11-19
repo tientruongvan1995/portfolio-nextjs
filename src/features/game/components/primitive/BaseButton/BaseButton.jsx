@@ -1,27 +1,46 @@
-import Image from "next/image";
-import Link from "next/link";
-import styles from "./BaseButton.module.css";
+import { Link } from '@/i18n/navigation';
 
-import gottaCatchEmAll from "./images/gottaCatchEmAll.png";
+const VARIANTS = {
+  primary: 'primary',
+  secondary: 'secondary',
+  tertiary: 'ghost',
+  special: 'ghost',
+};
 
-const BaseButton = ({ buttonType = "primary", role = "button", className = "", ...rest }) => {
-  const RoleTag = role == "button" ? "button" : Link;
+const BaseButton = ({
+  buttonType = 'primary',
+  role = 'button',
+  className = '',
+  disabled = false,
+  ...rest
+}) => {
+  const classes = ['g-btn', `g-btn--${VARIANTS[buttonType] ?? 'primary'}`, className]
+    .filter(Boolean)
+    .join(' ');
 
-  if (buttonType !== "special") {
+  if (role === 'link') {
+    const { children, href, ...linkProps } = rest;
+
+    if (disabled) {
+      return (
+        <span className={classes} aria-disabled="true">
+          {children}
+        </span>
+      );
+    }
+
     return (
-      <RoleTag {...rest} className={`${styles.button} ${styles[buttonType]} ${className}`}>
-        {rest.children}
-      </RoleTag>
+      <Link href={href} className={classes} {...linkProps}>
+        {children}
+      </Link>
     );
   }
 
-  if (buttonType === "special") {
-    return (
-      <RoleTag {...rest} className={`${styles.button} ${styles[buttonType]} ${className}`}>
-        <Image src={gottaCatchEmAll} alt="Gotta Catch 'Em All" width={150} height={31} />
-      </RoleTag>
-    );
-  }
+  return (
+    <button type="button" className={classes} disabled={disabled} {...rest}>
+      {rest.children}
+    </button>
+  );
 };
 
 export default BaseButton;
